@@ -12,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Navbar v-if="!state.isLoading" />
+  <Navbar v-if="!state.isLoading" :firstNumber="5" :secondNumber="7" />
 </template>
 
 <style scoped></style>
