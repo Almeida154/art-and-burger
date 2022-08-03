@@ -8,18 +8,19 @@ interface NavBarI {
 
 defineProps<NavBarI>();
 
-const state = reactive({
-  sum: 0,
-  num1: 0,
-  num2: 0,
-});
+// const state = reactive({
+//   sum: 0,
+//   num1: 0,
+//   num2: 0,
+// });
+
+const sum = ref(0);
+const num1 = ref(0);
+const num2 = ref(0);
 
 function handleSumFormSubmit(e: Event) {
   e.preventDefault();
-
-  state.sum = state.num1 + state.num2;
-  console.log(state.sum);
-  console.log(state.num1 + state.num2);
+  sum.value = num1.value + num2.value;
 }
 </script>
 
@@ -27,10 +28,10 @@ function handleSumFormSubmit(e: Event) {
   <h1 class="navbar">Navbar</h1>
 
   <form @submit="handleSumFormSubmit($event)">
-    <input type="number" name="num1" :value="firstNumber" />
-    <input type="number" name="num2" :value="secondNumber" />
+    <input type="number" name="num1" v-model="num1" />
+    <input type="number" name="num2" v-model="num2" />
     <input type="submit" value="Sum" />
   </form>
 
-  <p>{{ state.sum }}</p>
+  <p>{{ sum }}</p>
 </template>
