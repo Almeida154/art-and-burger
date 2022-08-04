@@ -1,6 +1,6 @@
 import express from 'express';
 
-import BurgerController from './controllers/BurgerController';
+import BurgerController from './app/controllers/ItemController';
 
 const routes = express.Router();
 

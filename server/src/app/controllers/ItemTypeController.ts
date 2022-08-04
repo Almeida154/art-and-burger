@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-class BurgerController {
+class ItemTypeController {
   async all(req: Request, res: Response) {
     return res.json({
       msg: 'Working very well',
@@ -8,4 +8,4 @@ class BurgerController {
   }
 }
 
-export default new BurgerController();
+export default new ItemTypeController();
