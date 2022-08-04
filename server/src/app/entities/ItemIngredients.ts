@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Ingredients } from './Ingredients';
+import { Ingredient } from './Ingredient';
 import { Item } from './Item';
 
 @Entity('ITEM_INGREDIENTS')
@@ -10,6 +10,6 @@ export class ItemIngredients {
   @ManyToOne(() => Item, (item) => item.ingredients)
   items: Item;
 
-  @ManyToOne(() => Ingredients, (ingredient) => ingredient.items)
-  ingredients: Ingredients;
+  @ManyToOne(() => Ingredient, (ingredient) => ingredient.items)
+  ingredients: Ingredient;
 }

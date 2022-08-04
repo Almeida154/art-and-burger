@@ -9,7 +9,7 @@ class ItemTypesController {
     const itemTypes = await itemTypeRepository.find();
 
     if (itemTypes.length === 0) {
-      return res.json({ msg: 'No Item Types' });
+      return res.status(404).json({ msg: 'No item types found' });
     }
 
     return res.json({ itemTypes });

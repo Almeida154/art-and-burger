@@ -9,7 +9,7 @@ class StatusController {
     const statuses = await statusRepository.find();
 
     if (statuses.length === 0) {
-      return res.json({ msg: 'No status' });
+      return res.status(404).json({ msg: 'No status found' });
     }
 
     return res.json({ statuses });

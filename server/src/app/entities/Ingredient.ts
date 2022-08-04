@@ -1,8 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { ItemIngredients } from './ItemIngredients';
 
 @Entity('INGREDIENTS')
-export class Ingredients {
+export class Ingredient {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
