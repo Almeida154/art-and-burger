@@ -6,7 +6,13 @@ export class CreateItemsTable1659579751048 implements MigrationInterface {
       new Table({
         name: 'ITEMS',
         columns: [
-          { name: 'id', type: 'uuid', isPrimary: true },
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'uuid',
+          },
           { name: 'name', type: 'text' },
           { name: 'price', type: 'numeric' },
           { name: 'item_type_id', type: 'uuid' },
@@ -15,7 +21,7 @@ export class CreateItemsTable1659579751048 implements MigrationInterface {
           {
             name: 'fk_item_type',
             columnNames: ['item_type_id'],
-            referencedTableName: 'ITEMS_TYPE',
+            referencedTableName: 'ITEM_TYPES',
             referencedColumnNames: ['id'],
           },
         ],

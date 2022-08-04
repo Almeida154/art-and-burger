@@ -6,10 +6,16 @@ export class CreateOrdersTable1659579758700 implements MigrationInterface {
       new Table({
         name: 'ORDERS',
         columns: [
-          { name: 'id', type: 'uuid', isPrimary: true },
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'uuid',
+          },
           { name: 'total_price', type: 'numeric' },
-          { name: 'status_id', type: 'uuid' },
           { name: 'ordered_at', type: 'timestamp' },
+          { name: 'status_id', type: 'uuid' },
         ],
         foreignKeys: [
           {

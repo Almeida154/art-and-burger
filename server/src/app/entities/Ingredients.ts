@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn } from 'typeorm';
+import { ItemIngredients } from './ItemIngredients';
 
-@Entity()
+@Entity('INGREDIENTS')
 export class Ingredients {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -11,6 +12,7 @@ export class Ingredients {
   @Column('numeric')
   price: number;
 
-  @Column()
-  item_type_id: number;
+  @OneToMany(() => ItemIngredients, (itemIngredients) => itemIngredients.items)
+  @JoinColumn({ name: 'item_id' })
+  items: ItemIngredients[];
 }

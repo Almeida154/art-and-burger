@@ -1,12 +1,18 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateItemsTypeTable1659579732125 implements MigrationInterface {
+export class CreateItemTypesTable1659579732125 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'ITEMS_TYPE',
+        name: 'ITEM_TYPES',
         columns: [
-          { name: 'id', type: 'uuid', isPrimary: true },
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'uuid',
+          },
           { name: 'desc', type: 'text', isUnique: true },
         ],
       })
@@ -14,6 +20,6 @@ export class CreateItemsTypeTable1659579732125 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('ITEMS_TYPE');
+    await queryRunner.dropTable('ITEM_TYPES');
   }
 }

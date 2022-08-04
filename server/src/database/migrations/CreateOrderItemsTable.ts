@@ -6,7 +6,13 @@ export class CreateOrderItemsTable1659579772937 implements MigrationInterface {
       new Table({
         name: 'ORDER_ITEMS',
         columns: [
-          { name: 'id', type: 'uuid', isPrimary: true },
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'uuid',
+          },
           { name: 'item_id', type: 'uuid' },
           { name: 'order_id', type: 'uuid' },
         ],

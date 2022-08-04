@@ -1,6 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
+import { OrderItems } from './OrderItems';
+import { Status } from './Status';
 
-@Entity()
+@Entity('ORDER')
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -8,9 +17,14 @@ export class Order {
   @Column('numeric')
   total_price: number;
 
-  @Column('text')
-  status: string;
-
   @Column('timestamp')
   ordered_at: Date;
+
+  @OneToOne(() => Status)
+  @JoinColumn({ name: 'status_id' })
+  status: Status;
+
+  @OneToMany(() => OrderItems, (orderItems) => orderItems.item)
+  @JoinColumn({ name: 'item_id' })
+  items: OrderItems[];
 }

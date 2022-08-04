@@ -1,13 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Ingredients } from './Ingredients';
+import { Item } from './Item';
 
-@Entity()
+@Entity('ITEM_INGREDIENTS')
 export class ItemIngredients {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  item_id: number;
+  @ManyToOne(() => Item, (item) => item.ingredients)
+  items: Item;
 
-  @Column()
-  ingredient_id: number;
+  @ManyToOne(() => Ingredients, (ingredient) => ingredient.items)
+  ingredients: Ingredients;
 }

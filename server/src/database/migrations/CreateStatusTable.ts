@@ -6,8 +6,14 @@ export class CreateStatusTable1659579741120 implements MigrationInterface {
       new Table({
         name: 'STATUS',
         columns: [
-          { name: 'id', type: 'uuid', isPrimary: true },
-          { name: 'status', type: 'text' },
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'uuid',
+          },
+          { name: 'desc', type: 'text' },
         ],
       })
     );

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-class OrderController {
+class ItemsController {
   async all(req: Request, res: Response) {
     return res.json({
       msg: 'Working very well',
@@ -8,4 +8,4 @@ class OrderController {
   }
 }
 
-export default new OrderController();
+export default new ItemsController();

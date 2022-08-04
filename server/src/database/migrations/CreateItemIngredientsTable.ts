@@ -6,7 +6,13 @@ export class CreateItemIngredientsTable1659579782198 implements MigrationInterfa
       new Table({
         name: 'ITEM_INGREDIENTS',
         columns: [
-          { name: 'id', type: 'uuid', isPrimary: true },
+          {
+            name: 'id',
+            type: 'uuid',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'uuid',
+          },
           { name: 'item_id', type: 'uuid' },
           { name: 'ingredient_id', type: 'uuid' },
         ],
