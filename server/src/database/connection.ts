@@ -1,5 +1,5 @@
 import { AppDataSource } from '../data-source';
-import { itemTypesSeed, statusSeed } from '../seed/seeding';
+import { ingredientsSeed, itemTypesSeed, statusSeed } from '../seed/seeding';
 
 const connection = () => {
   AppDataSource.initialize()
@@ -7,6 +7,7 @@ const connection = () => {
       console.log('📦 Database connected successfully');
       await itemTypesSeed();
       await statusSeed();
+      await ingredientsSeed();
     })
     .catch((error) => console.log(error));
 };

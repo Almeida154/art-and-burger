@@ -9,22 +9,22 @@ import {
 import { OrderItems } from './OrderItems';
 import { Status } from './Status';
 
-@Entity('ORDER')
+@Entity('ORDERS')
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('numeric')
-  total_price: number;
+  totalPrice: number;
 
   @Column('timestamp')
-  ordered_at: Date;
+  orderedAt: Date;
 
   @OneToOne(() => Status)
   @JoinColumn({ name: 'status_id' })
   status: Status;
 
-  @OneToMany(() => OrderItems, (orderItems) => orderItems.item)
-  @JoinColumn({ name: 'item_id' })
-  items: OrderItems[];
+  // @OneToMany(() => OrderItems, (orderItems) => orderItems.item)
+  // @JoinColumn({ name: 'item_id' })
+  // items: OrderItems[];
 }

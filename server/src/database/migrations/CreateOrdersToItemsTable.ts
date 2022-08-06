@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateItemIngredientsTable1659579782198 implements MigrationInterface {
+export class CreateOrderToItemsTable1659579772937 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'ITEM_INGREDIENTS',
+        name: 'ORDERS_TO_ITEMS',
         columns: [
           {
             name: 'id',
@@ -13,20 +13,20 @@ export class CreateItemIngredientsTable1659579782198 implements MigrationInterfa
             isGenerated: true,
             generationStrategy: 'uuid',
           },
-          { name: 'item_id', type: 'uuid' },
-          { name: 'ingredient_id', type: 'uuid' },
+          { name: 'itemId', type: 'uuid' },
+          { name: 'orderId', type: 'uuid' },
         ],
         foreignKeys: [
           {
             name: 'fk_item',
-            columnNames: ['item_id'],
+            columnNames: ['itemId'],
             referencedTableName: 'ITEMS',
             referencedColumnNames: ['id'],
           },
           {
-            name: 'fk_ingredient',
-            columnNames: ['ingredient_id'],
-            referencedTableName: 'INGREDIENTS',
+            name: 'fk_order',
+            columnNames: ['orderId'],
+            referencedTableName: 'ORDERS',
             referencedColumnNames: ['id'],
           },
         ],
@@ -35,6 +35,6 @@ export class CreateItemIngredientsTable1659579782198 implements MigrationInterfa
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('ITEM_INGREDIENTS');
+    await queryRunner.dropTable('ORDERS_TO_ITEMS');
   }
 }

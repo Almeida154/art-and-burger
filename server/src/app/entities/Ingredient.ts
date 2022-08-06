@@ -2,23 +2,26 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  ManyToMany,
   OneToMany,
-  JoinColumn,
 } from 'typeorm';
-import { ItemIngredients } from './ItemIngredients';
+import { Item } from './Item';
+import { ItemToIngredient } from './ItemToIngredient';
 
 @Entity('INGREDIENTS')
 export class Ingredient {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column('text')
-  name: string;
+  name!: string;
 
   @Column('numeric')
-  price: number;
+  price!: number;
 
-  @OneToMany(() => ItemIngredients, (itemIngredients) => itemIngredients.items)
-  @JoinColumn({ name: 'item_id' })
-  items: ItemIngredients[];
+  @OneToMany(
+    () => ItemToIngredient,
+    (itemToIngredient) => itemToIngredient.ingredient
+  )
+  public itemToIngredients!: ItemToIngredient[];
 }

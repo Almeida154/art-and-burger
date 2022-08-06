@@ -15,12 +15,12 @@ export class CreateItemsTable1659579751048 implements MigrationInterface {
           },
           { name: 'name', type: 'text' },
           { name: 'price', type: 'numeric' },
-          { name: 'item_type_id', type: 'uuid' },
+          { name: 'itemTypeId', type: 'uuid' },
         ],
         foreignKeys: [
           {
             name: 'fk_item_type',
-            columnNames: ['item_type_id'],
+            columnNames: ['itemTypeId'],
             referencedTableName: 'ITEM_TYPES',
             referencedColumnNames: ['id'],
           },

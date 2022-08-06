@@ -13,14 +13,14 @@ export class CreateOrdersTable1659579758700 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'uuid',
           },
-          { name: 'total_price', type: 'numeric' },
-          { name: 'ordered_at', type: 'timestamp' },
-          { name: 'status_id', type: 'uuid' },
+          { name: 'totalPrice', type: 'numeric' },
+          { name: 'orderedAt', type: 'timestamp' },
+          { name: 'statusId', type: 'uuid' },
         ],
         foreignKeys: [
           {
             name: 'fk_status',
-            columnNames: ['status_id'],
+            columnNames: ['statusId'],
             referencedTableName: 'STATUS',
             referencedColumnNames: ['id'],
           },

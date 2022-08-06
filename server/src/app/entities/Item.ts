@@ -6,30 +6,24 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { ItemIngredients } from './ItemIngredients';
+import { ItemToIngredient } from './ItemToIngredient';
 import { ItemType } from './ItemType';
-import { OrderItems } from './OrderItems';
 
 @Entity('ITEMS')
 export class Item {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column('text')
-  name: string;
+  name!: string;
 
   @Column('numeric')
-  price: number;
+  price!: number;
 
   @OneToOne(() => ItemType)
   @JoinColumn()
-  itemType: ItemType;
+  itemType!: ItemType;
 
-  @OneToMany(() => OrderItems, (orderItems) => orderItems.order)
-  @JoinColumn({ name: 'order_id' })
-  orders: OrderItems[];
-
-  @OneToMany(() => ItemIngredients, (itemIngredients) => itemIngredients.ingredients)
-  @JoinColumn({ name: 'ingredient_id' })
-  ingredients: ItemIngredients[];
+  @OneToMany(() => ItemToIngredient, (itemToIngredient) => itemToIngredient.item)
+  public itemToIngredients!: ItemToIngredient[];
 }
