@@ -6,7 +6,7 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { OrderItems } from './OrderItems';
+import { OrderToItem } from './OrderToItem';
 import { Status } from './Status';
 
 @Entity('ORDERS')
@@ -21,7 +21,7 @@ export class Order {
   orderedAt: Date;
 
   @OneToOne(() => Status)
-  @JoinColumn({ name: 'status_id' })
+  @JoinColumn()
   status: Status;
 
   // @OneToMany(() => OrderItems, (orderItems) => orderItems.item)

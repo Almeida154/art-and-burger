@@ -3,7 +3,7 @@ import { Item } from './Item';
 import { Order } from './Order';
 
 @Entity('ORDERS_TO_ITEMS')
-export class OrderItems {
+export class OrderToItem {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

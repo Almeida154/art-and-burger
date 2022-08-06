@@ -19,6 +19,12 @@ class ItemsController {
     if (!price) return res.status(406).send({ msg: 'Price is required' });
     if (!itemTypeId) return res.status(406).send({ msg: 'Item type is required' });
 
+    const itemExists = await itemRepository.findOneBy({
+      name,
+    });
+
+    if (itemExists) return res.status(406).send({ msg: 'This item already exists' });
+
     const itemType = await itemTypeRepository.findOneBy({
       id: itemTypeId,
     });

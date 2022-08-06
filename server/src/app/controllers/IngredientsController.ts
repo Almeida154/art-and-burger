@@ -26,8 +26,6 @@ class IngredientsController {
 
     return res.json(ingredients);
   }
-
-  async update(req: Request, res: Response) {}
 }
 
 export default new IngredientsController();
