@@ -17,14 +17,17 @@ export class Order {
   @Column('numeric')
   totalPrice: number;
 
-  @Column('timestamp')
+  @Column({
+    type: 'timestamp with time zone',
+    default: () => 'now()',
+  })
   orderedAt: Date;
 
   @OneToOne(() => Status)
   @JoinColumn()
   status: Status;
 
-  // @OneToMany(() => OrderItems, (orderItems) => orderItems.item)
-  // @JoinColumn({ name: 'item_id' })
-  // items: OrderItems[];
+  @OneToMany(() => OrderToItem, (orderItems) => orderItems.order)
+  @JoinColumn()
+  orderToItems: OrderToItem[];
 }

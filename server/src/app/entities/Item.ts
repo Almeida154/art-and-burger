@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { ItemToIngredient } from './ItemToIngredient';
 import { ItemType } from './ItemType';
+import { OrderToItem } from './OrderToItem';
 
 @Entity('ITEMS')
 export class Item {
@@ -25,5 +26,9 @@ export class Item {
   itemType!: ItemType;
 
   @OneToMany(() => ItemToIngredient, (itemToIngredient) => itemToIngredient.item)
-  public itemToIngredients!: ItemToIngredient[];
+  itemToIngredients!: ItemToIngredient[];
+
+  @OneToMany(() => OrderToItem, (orderItems) => orderItems.item)
+  @JoinColumn()
+  orderToItems: OrderToItem[];
 }

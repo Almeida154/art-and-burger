@@ -14,7 +14,7 @@ export class CreateOrdersTable1659579758700 implements MigrationInterface {
             generationStrategy: 'uuid',
           },
           { name: 'totalPrice', type: 'numeric' },
-          { name: 'orderedAt', type: 'timestamp' },
+          { name: 'orderedAt', type: 'timestamp', default: 'now()' },
           { name: 'statusId', type: 'uuid' },
         ],
         foreignKeys: [

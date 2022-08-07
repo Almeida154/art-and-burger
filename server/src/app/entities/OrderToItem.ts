@@ -7,9 +7,15 @@ export class OrderToItem {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // @ManyToOne(() => Item, (item) => item.orders)
-  // item: Item;
+  @Column('uuid')
+  itemId!: string;
 
-  // @ManyToOne(() => Order, (order) => order.items)
-  // order: Order;
+  @Column('uuid')
+  orderId!: string;
+
+  @ManyToOne(() => Item, (item) => item.orderToItems)
+  item: Item;
+
+  @ManyToOne(() => Order, (order) => order.orderToItems)
+  order: Order;
 }
