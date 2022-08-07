@@ -1,15 +1,13 @@
 <script lang="ts">
-import Landing from './pages/Landing.vue';
+import Navbar from '../components/Navbar.vue';
 
 export default {
   components: {
-    Landing,
+    Navbar,
   },
 };
 </script>
 
 <template>
-  <Landing />
+  <Navbar />
 </template>
-
-<style scoped></style>
