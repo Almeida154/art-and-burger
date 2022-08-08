@@ -1,9 +1,9 @@
 <script lang="ts">
-import { ShoppingCartIcon } from 'vue-feather-icons';
+import VueFeather from 'vue-feather';
 
 export default {
   components: {
-    ShoppingCartIcon,
+    VueFeather,
   },
 };
 </script>
@@ -20,8 +20,8 @@ export default {
       </ul>
 
       <div class="buttons">
-        <button>
-          <shopping-cart-icon size="1.5x" class="custom-class"></shopping-cart-icon>
+        <button class="cart">
+          <vue-feather type="shopping-cart" size="1rem"></vue-feather>
         </button>
       </div>
     </div>
@@ -56,11 +56,25 @@ nav {
 
         a {
           color: var(--text-color);
-          transition: color 0.2s;
+          font-weight: 500;
 
           &:hover {
             color: var(--accent-color);
           }
+        }
+      }
+    }
+
+    .buttons {
+      .cart {
+        border: none;
+        background: var(--accent-color);
+        padding: 0.6rem;
+        border-radius: 0.4rem;
+        cursor: pointer;
+
+        &:hover {
+          background: var(--hover-accent-color);
         }
       }
     }

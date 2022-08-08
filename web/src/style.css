@@ -9,6 +9,7 @@
   background-color: #050f16;
 
   --accent-color: #ff0000;
+  --hover-accent-color: #ff0000d2;
   --text-color: #b8b8b8;
   --title-color: #ffffff;
 
@@ -27,11 +28,12 @@
 
 a {
   font-weight: 500;
-  color: #ff0000d2;
+  color: var(--accent-color);
   text-decoration: inherit;
+  transition: color 0.2s;
 }
 a:hover {
-  color: var(--accent-color);
+  color: var(--hover-accent-color);
 }
 
 body {
