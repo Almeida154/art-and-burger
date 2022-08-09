@@ -1,15 +1,15 @@
 :root {
   font-family: Rubik, Inter, arial;
   font-size: 16px;
-  line-height: 24px;
   font-weight: 400;
 
   color-scheme: light dark;
   color: #ffffffde;
-  background-color: #050f16;
 
+  --dark-color: #050f16;
+  --light-color: #f6f6f6;
   --accent-color: #ff0000;
-  --hover-accent-color: #ff0000d2;
+  --darker-accent-color: #ff0000d2;
   --text-color: #b8b8b8;
   --title-color: #ffffff;
 
@@ -33,18 +33,29 @@ a {
   transition: color 0.2s;
 }
 a:hover {
-  color: var(--hover-accent-color);
+  color: var(--darker-accent-color);
 }
 
 body {
+  background-color: var(--dark-color);
   min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+input,
+select {
+  font-family: Rubik, Inter, arial;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  border-left: 1px dashed var(--accent-color);
-  border-right: 1px dashed var(--accent-color);
+  /* border-left: 1px dashed var(--accent-color);
+  border-right: 1px dashed var(--accent-color); */
 }
 
 @media (prefers-color-scheme: light) {

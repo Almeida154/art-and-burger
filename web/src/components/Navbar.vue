@@ -20,9 +20,9 @@ export default {
       </ul>
 
       <div class="buttons">
-        <button class="cart">
+        <a class="cart">
           <vue-feather type="shopping-cart" size="1rem"></vue-feather>
-        </button>
+        </a>
       </div>
     </div>
   </nav>
@@ -57,9 +57,11 @@ nav {
         a {
           color: var(--text-color);
           font-weight: 500;
+          text-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
 
           &:hover {
             color: var(--accent-color);
+            text-shadow: 0 0 24px var(--accent-color);
           }
         }
       }
@@ -67,14 +69,18 @@ nav {
 
     .buttons {
       .cart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border: none;
         background: var(--accent-color);
         padding: 0.6rem;
         border-radius: 0.4rem;
         cursor: pointer;
+        color: var(--title-color);
 
         &:hover {
-          background: var(--hover-accent-color);
+          background: var(--darker-accent-color);
         }
       }
     }
