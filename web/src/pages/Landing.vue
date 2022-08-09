@@ -1,11 +1,18 @@
 <script lang="ts">
 import Navbar from '../components/Navbar.vue';
 import Button from '../components/Button.vue';
+import router from '../router';
 
 export default {
   components: {
     Navbar,
     Button,
+  },
+  methods: {
+    handleGoToMenu() {
+      console.log('oi');
+      router.push('/menu');
+    },
   },
 };
 </script>
@@ -33,7 +40,7 @@ export default {
           </p>
           <div class="buttons">
             <Button text="Sign Up" variant="primary" />
-            <Button text="Go to menu" />
+            <Button text="Go to menu" @click="handleGoToMenu" />
           </div>
         </div>
 
@@ -119,6 +126,8 @@ export default {
 
     .buttons {
       margin-top: 2.6rem;
+      display: flex;
+      gap: 1rem;
     }
   }
 
