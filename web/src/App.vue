@@ -1,15 +1,3 @@
-<script lang="ts">
-import Landing from './pages/Landing.vue';
-
-export default {
-  components: {
-    Landing,
-  },
-};
-</script>
-
 <template>
-  <Landing />
+  <router-view />
 </template>
-
-<style scoped></style>

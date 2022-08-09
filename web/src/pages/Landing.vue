@@ -22,7 +22,7 @@ export default {
     <section class="hero">
       <div class="hero__container container">
         <div class="content">
-          <span class="subtitle">Discover new taste in every bite.</span>
+          <span class="subtitle">More than 30 orders placed.</span>
           <h2 class="title">
             Special tasty <br />
             Burger.
