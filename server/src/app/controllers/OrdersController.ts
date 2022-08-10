@@ -89,6 +89,14 @@ class OrdersController {
     return res.status(200).json(formattedOrders);
   }
 
+  async count(req: Request, res: Response) {
+    const orderRepository = AppDataSource.getRepository(Order);
+
+    const orders = await orderRepository.count();
+
+    return res.status(200).json(orders);
+  }
+
   async allByStatus(req: Request, res: Response) {
     const { status } = req.params;
 

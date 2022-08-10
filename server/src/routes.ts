@@ -16,6 +16,7 @@ routes.get('/items', ItemsController.all);
 routes.post('/item', ItemsController.create);
 
 routes.get('/orders', OrdersController.all);
+routes.get('/orders/count', OrdersController.count);
 routes.get('/orders/:status', OrdersController.allByStatus);
 routes.post('/order', OrdersController.create);
 

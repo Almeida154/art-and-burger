@@ -1,18 +1,35 @@
 <script lang="ts">
+import api from '../services/api';
 import Navbar from '../components/Navbar.vue';
 import Button from '../components/Button.vue';
 import router from '../router';
 
+interface BaseComponentData {
+  ordersCount: number;
+}
+
 export default {
+  data(): BaseComponentData {
+    return {
+      ordersCount: 0,
+    };
+  },
+
+  async created() {
+    const { data } = await api.get<number>('/orders/count');
+    // @ts-ignore
+    this.ordersCount = data;
+  },
+
+  methods: {
+    handleGoToMenu() {
+      router.push('/menu');
+    },
+  },
+
   components: {
     Navbar,
     Button,
-  },
-  methods: {
-    handleGoToMenu() {
-      console.log('oi');
-      router.push('/menu');
-    },
   },
 };
 </script>
@@ -29,7 +46,7 @@ export default {
     <section class="hero">
       <div class="hero__container container">
         <div class="content">
-          <span class="subtitle">More than 30 orders placed.</span>
+          <span class="subtitle">More than {{ ordersCount }} orders placed.</span>
           <h2 class="title">
             Special tasty <br />
             Burger.
