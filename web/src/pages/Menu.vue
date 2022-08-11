@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar.vue';
 import Tag from '../components/Tag.vue';
 
 import api from '../services/api';
+import Card from '../components/Card.vue';
 
 type ItemType = {
   id: number;
@@ -34,6 +35,7 @@ export default {
   components: {
     Navbar,
     Tag,
+    Card,
   },
 };
 </script>
@@ -58,6 +60,12 @@ export default {
 
           <p>Filter by</p>
         </div>
+
+        <div class="items">
+          <Card />
+          <Card />
+          <Card />
+        </div>
       </div>
     </div>
   </div>
@@ -65,6 +73,8 @@ export default {
 
 <style lang="scss" scoped>
 .menu {
+  height: 2000px;
+
   &__container {
     margin-top: 2rem;
 
@@ -95,6 +105,12 @@ export default {
       p {
         color: var(--text-color);
       }
+    }
+
+    .items {
+      margin-top: 5rem;
+      display: flex;
+      gap: 1rem;
     }
   }
 }
