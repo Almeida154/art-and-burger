@@ -34,15 +34,14 @@ export default defineComponent({
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, a?</p>
     <span>$ {{ count > 0 ? count * item.price : item.price }}</span>
 
+    <Counter id="counter" :count="count" @subtract="subtract" @add="add" />
     <CardButton id="card-button" text="Add to cart" />
-    <Counter :count="count" @subtract="subtract" @add="add" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .card {
   background-color: var(--container-color);
-  width: 220px;
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
@@ -75,11 +74,11 @@ export default defineComponent({
   }
 
   #card-button {
-    margin-top: 2rem;
+    margin-top: 0.6rem;
+  }
 
-    & + .counter {
-      margin-top: 0.6rem;
-    }
+  #counter {
+    margin-top: 2rem;
   }
 }
 </style>

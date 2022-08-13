@@ -67,6 +67,20 @@ export default defineComponent({
           <Card />
           <Card />
           <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
         </div>
       </div>
     </div>
@@ -110,9 +124,18 @@ export default defineComponent({
     }
 
     .items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 0.8fr));
+      justify-content: center;
+      align-content: space-around;
+      align-items: center;
       margin-top: 5rem;
-      display: flex;
-      gap: 1rem;
+      row-gap: 2rem;
+      column-gap: 1rem;
+
+      @media (max-width: 460px) {
+        grid-template-columns: 1fr;
+      }
     }
   }
 }
