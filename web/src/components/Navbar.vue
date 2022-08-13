@@ -1,11 +1,12 @@
 <script lang="ts">
+import { defineComponent } from 'vue';
 import VueFeather from 'vue-feather';
 
-export default {
+export default defineComponent({
   components: {
     VueFeather,
   },
-};
+});
 </script>
 
 <template>

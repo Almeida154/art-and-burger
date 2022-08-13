@@ -1,13 +1,16 @@
 <script lang="ts">
-export default {
+import { defineComponent } from '@vue/runtime-core';
+
+export default defineComponent({
   props: {
     count: {
       type: Number,
       default: 0,
     },
   },
-  emits: ['subtract, add'],
-};
+  // emits: ['subtract, add'],
+  defineEmits: ['subtract, add'],
+});
 </script>
 
 <template>

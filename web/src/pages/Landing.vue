@@ -3,13 +3,10 @@ import api from '../services/api';
 import Navbar from '../components/Navbar.vue';
 import Button from '../components/Button.vue';
 import router from '../router';
+import { defineComponent } from '@vue/runtime-core';
 
-interface BaseComponentData {
-  ordersCount: number;
-}
-
-export default {
-  data(): BaseComponentData {
+export default defineComponent({
+  data() {
     return {
       ordersCount: 0,
     };
@@ -17,7 +14,6 @@ export default {
 
   async created() {
     const { data } = await api.get<number>('/orders/count');
-    // @ts-ignore
     this.ordersCount = data;
   },
 
@@ -31,7 +27,7 @@ export default {
     Navbar,
     Button,
   },
-};
+});
 </script>
 
 <template>

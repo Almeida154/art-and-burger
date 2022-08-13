@@ -1,7 +1,10 @@
 <script lang="ts">
+import { defineComponent } from 'vue';
+
 import CardButton from './CardButton.vue';
 import Counter from './Counter.vue';
-export default {
+
+export default defineComponent({
   data() {
     return {
       count: 0,
@@ -12,19 +15,16 @@ export default {
   },
   methods: {
     add() {
-      // @ts-ignore
       this.count++;
     },
     subtract() {
-      // @ts-ignore
       if (this.count > 0) {
-        // @ts-ignore
         this.count--;
       }
     },
   },
   components: { CardButton, Counter },
-};
+});
 </script>
 
 <template>

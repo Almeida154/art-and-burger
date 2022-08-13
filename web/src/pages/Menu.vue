@@ -5,6 +5,9 @@ import Tag from '../components/Tag.vue';
 import api from '../services/api';
 import Card from '../components/Card.vue';
 
+import { AxiosResponse } from 'axios';
+import { defineComponent } from '@vue/runtime-core';
+
 type ItemType = {
   id: number;
   desc: string;
@@ -18,7 +21,7 @@ type Item = {
   ingredients: [{ name: string }];
 };
 
-export default {
+export default defineComponent({
   data() {
     return {
       items: [] as Item[],
@@ -27,8 +30,7 @@ export default {
   },
 
   async created() {
-    const { data } = await api.get('item-types');
-    // @ts-ignore
+    const { data } = await api.get<{ itemTypes: ItemType[] }>('item-types');
     this.itemTypes = data.itemTypes;
   },
 
@@ -37,7 +39,7 @@ export default {
     Tag,
     Card,
   },
-};
+});
 </script>
 
 <template>

@@ -1,5 +1,7 @@
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
     text: String,
   },
@@ -10,7 +12,7 @@ export default {
       },
     };
   },
-};
+});
 </script>
 
 <template>
