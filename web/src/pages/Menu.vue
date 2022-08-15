@@ -44,7 +44,7 @@ export default defineComponent({
 
 <template>
   <div class="wrapper">
-    <Navbar />
+    <Navbar menu />
 
     <div class="menu">
       <div class="menu__container container">
@@ -130,7 +130,7 @@ export default defineComponent({
       align-content: space-around;
       align-items: center;
       margin-top: 5rem;
-      row-gap: 2rem;
+      row-gap: 1rem;
       column-gap: 1rem;
 
       @media (max-width: 460px) {

@@ -3,6 +3,7 @@ import { defineComponent } from 'vue';
 
 import CardButton from './CardButton.vue';
 import Counter from './Counter.vue';
+import Tag from './Tag.vue';
 
 export default defineComponent({
   data() {
@@ -23,7 +24,7 @@ export default defineComponent({
       }
     },
   },
-  components: { CardButton, Counter },
+  components: { CardButton, Counter, Tag },
 });
 </script>
 
@@ -33,6 +34,7 @@ export default defineComponent({
     <h5>Cheesebacon</h5>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, a?</p>
     <span>$ {{ count > 0 ? count * item.price : item.price }}</span>
+    <Tag id="tag" :text="'Meat'" />
 
     <Counter id="counter" :count="count" @subtract="subtract" @add="add" />
     <CardButton id="card-button" text="Add to cart" />
@@ -73,12 +75,16 @@ export default defineComponent({
     color: var(--text-color);
   }
 
-  #card-button {
-    margin-top: 0.6rem;
+  #tag {
+    margin-top: 1rem;
   }
 
   #counter {
-    margin-top: 2rem;
+    margin-top: 1rem;
+  }
+
+  #card-button {
+    margin-top: 0.6rem;
   }
 }
 </style>

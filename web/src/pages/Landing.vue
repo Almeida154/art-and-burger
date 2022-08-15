@@ -33,7 +33,7 @@ export default defineComponent({
 <template>
   <div class="wrapper">
     <header>
-      <Navbar />
+      <Navbar landing />
     </header>
 
     <div class="blur-fx first"></div>
@@ -52,7 +52,7 @@ export default defineComponent({
             burger is a perfectly cooked burger that is juicy and packed with flavor.
           </p>
           <div class="buttons">
-            <Button text="Sign Up" variant="primary" />
+            <Button text="Sign up" variant="primary" />
             <Button text="Go to menu" @click="handleGoToMenu" />
           </div>
         </div>
@@ -79,10 +79,10 @@ export default defineComponent({
     position: absolute;
     width: 300px;
     height: 500px;
-    filter: blur(360px) saturate(180%);
+    filter: blur(300px);
     border-radius: 50%;
-    background-color: #ffffff;
-    opacity: 0.1;
+    background-color: var(--accent-color);
+    opacity: 0.2;
     overflow: hidden;
   }
 

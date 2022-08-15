@@ -6,31 +6,69 @@ export default defineComponent({
   components: {
     VueFeather,
   },
+  props: {
+    landing: {
+      type: Boolean,
+    },
+    menu: {
+      type: Boolean,
+    },
+  },
+  methods: {
+    handleToggleNav() {
+      const nav = document.querySelector('#nav');
+      if (nav) {
+        nav.classList.toggle('active');
+      }
+    },
+  },
 });
 </script>
 
 <template>
-  <nav class="container">
+  <header class="header container">
     <img src="img/accent-brand.svg" alt="ArtNBurger brand image" />
+    <div class="header__content">
+      <div class="links">
+        <nav class="nav" id="nav">
+          <ul>
+            <li v-show="landing"><a href="#">Sign in</a></li>
+            <li v-show="landing"><a href="#">Menu</a></li>
+            <li v-show="landing"><a href="#">About</a></li>
+            <li v-show="landing"><a href="#">Contact</a></li>
 
-    <div class="menu">
-      <ul>
-        <li><a href="#">Burgers</a></li>
-        <li><a href="#">Drinks</a></li>
-        <li><a href="#">Orders</a></li>
-      </ul>
+            <li v-show="menu"><a href="#">Orders</a></li>
+          </ul>
 
-      <div class="buttons">
+          <div class="toggle-nav close" id="toggleNav">
+            <vue-feather
+              type="x"
+              size="1.6rem"
+              @click="handleToggleNav"
+            ></vue-feather>
+          </div>
+        </nav>
+      </div>
+
+      <div v-show="menu" class="cart-container">
         <a class="cart">
           <vue-feather type="shopping-cart" size="1rem"></vue-feather>
         </a>
       </div>
+
+      <div class="toggle-nav open" id="toggleMenu">
+        <vue-feather
+          type="menu"
+          size="1.6rem"
+          @click="handleToggleNav"
+        ></vue-feather>
+      </div>
     </div>
-  </nav>
+  </header>
 </template>
 
 <style lang="scss" scoped>
-nav {
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,10 +79,17 @@ nav {
     cursor: pointer;
   }
 
-  .menu {
+  &__content {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav {
     display: flex;
     align-items: center;
     gap: 4rem;
+    transition: all 0.5s;
 
     ul {
       display: flex;
@@ -68,22 +113,74 @@ nav {
       }
     }
 
-    .buttons {
-      .cart {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        background: var(--accent-color);
-        padding: 0.6rem;
-        border-radius: 0.4rem;
-        cursor: pointer;
-        color: var(--title-color);
+    @media (max-width: 768px) {
+      background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(rgba(0, 0, 0, 0.9))
+      );
+      backdrop-filter: blur(15px) saturate(180%);
+      display: flex;
+      justify-content: center;
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: -100%;
+      height: 100vh;
+      z-index: 10;
 
-        &:hover {
-          background: var(--darker-accent-color);
+      ul {
+        flex-direction: column;
+        align-items: center;
+
+        li {
+          font-size: 1.4rem;
         }
       }
+
+      &.active {
+        top: 0;
+      }
+    }
+  }
+
+  .cart-container {
+    .cart {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: var(--accent-color);
+      padding: 0.6rem;
+      border-radius: 0.4rem;
+      cursor: pointer;
+      color: var(--title-color);
+
+      &:hover {
+        background: var(--darker-accent-color);
+      }
+    }
+  }
+
+  .toggle-nav {
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      color: var(--accent-color);
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
+
+    &.close {
+      top: 2.2rem;
+      right: 2rem;
+      position: absolute;
     }
   }
 }

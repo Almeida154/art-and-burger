@@ -4,9 +4,9 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: #ffffffde;
+  color: rgba(255, 255, 255, 0.871);
 
-  --dark-color: #0e0e0e;
+  --dark-color: #000000;
   --container-color: #1b1b1b;
   --darker-container-color: #0a0a0a;
   --light-color: #f6f6f6;
@@ -55,9 +55,13 @@ select {
 
 .container {
   max-width: 1200px;
-  margin: 0 1rem;
+  margin: 0 2rem;
   border-left: 1px dashed var(--accent-color);
   border-right: 1px dashed var(--accent-color);
+
+  @media (min-width: 1200px) {
+    margin: 0 auto;
+  }
 }
 
 @media (prefers-color-scheme: light) {
