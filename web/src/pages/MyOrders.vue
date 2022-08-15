@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <h1>Dashboard</h1>
+  <h1>My orders</h1>
 </template>
 
 <style lang="scss" scoped>

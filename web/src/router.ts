@@ -1,14 +1,26 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
+// User
 import Landing from './pages/Landing.vue';
 import Menu from './pages/Menu.vue';
-import Dashboard from './pages/Dashboard.vue';
+import MyOrders from './pages/MyOrders.vue';
+
+// Adm
+import AllOrders from './pages/adm/AllOrders.vue';
+import NewIngredient from './pages/adm/NewIngredient.vue';
+import NewItem from './pages/adm/NewItem.vue';
+
 import NotFound from './pages/NotFound.vue';
 
 const routes = [
   { path: '/', component: Landing },
   { path: '/menu', component: Menu },
-  { path: '/dashboard', component: Dashboard },
+  { path: '/my-orders', component: MyOrders },
+
+  { path: '/adm/all-orders', component: AllOrders },
+  { path: '/adm/new-ingredient', component: NewIngredient },
+  { path: '/adm/new-item', component: NewItem },
+
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
