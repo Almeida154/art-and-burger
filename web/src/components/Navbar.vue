@@ -21,47 +21,68 @@ export default defineComponent({
         nav.classList.toggle('active');
       }
     },
+
+    handleToggleActiveNav(header: Element) {
+      if (
+        document.body.scrollTop >= 20 ||
+        document.documentElement.scrollTop >= 20
+      ) {
+        header.classList.add('active');
+      } else {
+        header.classList.remove('active');
+      }
+    },
+  },
+  mounted() {
+    const header = document.querySelector('#header');
+    if (header) {
+      window.onscroll = () => {
+        this.handleToggleActiveNav(header);
+      };
+    }
   },
 });
 </script>
 
 <template>
-  <header class="header container">
-    <img src="img/accent-brand.svg" alt="ArtNBurger brand image" />
-    <div class="header__content">
-      <div class="links">
-        <nav class="nav" id="nav">
-          <ul>
-            <li v-show="landing"><a href="#">Sign in</a></li>
-            <li v-show="landing"><a href="#">Menu</a></li>
-            <li v-show="landing"><a href="#">About</a></li>
-            <li v-show="landing"><a href="#">Contact</a></li>
+  <header class="header" id="header">
+    <div class="header__container container">
+      <img src="img/accent-brand.svg" alt="ArtNBurger brand image" />
+      <div class="header__content">
+        <div class="links">
+          <nav class="nav" id="nav">
+            <ul>
+              <li v-show="landing"><a href="#">Sign in</a></li>
+              <li v-show="landing"><a href="#">Menu</a></li>
+              <li v-show="landing"><a href="#">About</a></li>
+              <li v-show="landing"><a href="#">Contact</a></li>
 
-            <li v-show="menu"><a href="#">Orders</a></li>
-          </ul>
+              <li v-show="menu"><a href="#">Orders</a></li>
+            </ul>
 
-          <div class="toggle-nav close" id="toggleNav">
-            <vue-feather
-              type="x"
-              size="1.6rem"
-              @click="handleToggleNav"
-            ></vue-feather>
-          </div>
-        </nav>
-      </div>
+            <div class="toggle-nav close" id="toggleNav">
+              <vue-feather
+                type="x"
+                size="1.6rem"
+                @click="handleToggleNav"
+              ></vue-feather>
+            </div>
+          </nav>
+        </div>
 
-      <div v-show="menu" class="cart-container">
-        <a class="cart">
-          <vue-feather type="shopping-cart" size="1rem"></vue-feather>
-        </a>
-      </div>
+        <div v-show="menu" class="cart-container">
+          <a class="cart">
+            <vue-feather type="shopping-cart" size="1rem"></vue-feather>
+          </a>
+        </div>
 
-      <div class="toggle-nav open" id="toggleMenu">
-        <vue-feather
-          type="menu"
-          size="1.6rem"
-          @click="handleToggleNav"
-        ></vue-feather>
+        <div class="toggle-nav open" id="toggleMenu">
+          <vue-feather
+            type="menu"
+            size="1.6rem"
+            @click="handleToggleNav"
+          ></vue-feather>
+        </div>
       </div>
     </div>
   </header>
@@ -69,118 +90,136 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 6rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
 
-  img {
-    width: 180px;
-    cursor: pointer;
+  &.active {
+    background: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(rgba(0, 0, 0, 0.7))
+    );
+    backdrop-filter: blur(15px) saturate(180%);
   }
 
-  &__content {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-  }
-
-  .nav {
+  &__container {
     display: flex;
     align-items: center;
-    gap: 4rem;
-    transition: all 0.5s;
+    justify-content: space-between;
+    height: 6rem;
 
-    ul {
+    img {
+      width: 180px;
+      cursor: pointer;
+    }
+
+    .header__content {
       display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
       gap: 4rem;
-      list-style: none;
+      transition: all 0.5s;
 
-      li {
-        font-size: 0.8rem;
-        text-transform: uppercase;
+      ul {
+        display: flex;
+        gap: 4rem;
+        list-style: none;
 
-        a {
-          color: var(--text-color);
-          font-weight: 500;
-          text-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
+        li {
+          font-size: 0.8rem;
+          text-transform: uppercase;
 
-          &:hover {
-            color: var(--accent-color);
-            text-shadow: 0 0 24px var(--accent-color);
+          a {
+            color: var(--text-color);
+            font-weight: 500;
+            text-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
+
+            &:hover {
+              color: var(--accent-color);
+              text-shadow: 0 0 24px var(--accent-color);
+            }
           }
         }
       }
-    }
 
-    @media (max-width: 768px) {
-      background: -webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        from(rgba(0, 0, 0, 0.9))
-      );
-      backdrop-filter: blur(15px) saturate(180%);
-      display: flex;
-      justify-content: center;
-      position: fixed;
-      left: 0;
-      right: 0;
-      top: -100%;
-      height: 100vh;
-      z-index: 10;
+      @media (max-width: 768px) {
+        position: fixed;
+        background: -webkit-gradient(
+          linear,
+          left top,
+          left bottom,
+          from(rgba(0, 0, 0, 0.9))
+        );
+        backdrop-filter: blur(15px) saturate(180%);
+        display: flex;
+        justify-content: center;
+        left: 0;
+        right: 0;
+        top: -100vh;
+        height: 100vh;
+        z-index: 10;
 
-      ul {
-        flex-direction: column;
-        align-items: center;
+        ul {
+          flex-direction: column;
+          align-items: center;
 
-        li {
-          font-size: 1.4rem;
+          li {
+            font-size: 1.4rem;
+          }
+        }
+
+        &.active {
+          top: 0;
         }
       }
+    }
 
-      &.active {
-        top: 0;
+    .cart-container {
+      .cart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: var(--accent-color);
+        padding: 0.6rem;
+        border-radius: 0.4rem;
+        cursor: pointer;
+        color: var(--title-color);
+
+        &:hover {
+          background: var(--darker-accent-color);
+        }
       }
     }
-  }
 
-  .cart-container {
-    .cart {
-      display: flex;
+    .toggle-nav {
+      display: none;
       align-items: center;
       justify-content: center;
-      border: none;
-      background: var(--accent-color);
-      padding: 0.6rem;
-      border-radius: 0.4rem;
-      cursor: pointer;
-      color: var(--title-color);
 
-      &:hover {
-        background: var(--darker-accent-color);
+      i {
+        color: var(--accent-color);
+        cursor: pointer;
       }
-    }
-  }
 
-  .toggle-nav {
-    display: none;
-    align-items: center;
-    justify-content: center;
+      @media (max-width: 768px) {
+        display: flex;
+      }
 
-    i {
-      color: var(--accent-color);
-      cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-      display: flex;
-    }
-
-    &.close {
-      top: 2.2rem;
-      right: 2rem;
-      position: absolute;
+      &.close {
+        top: 2.2rem;
+        right: 2rem;
+        position: absolute;
+      }
     }
   }
 }

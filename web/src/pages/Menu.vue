@@ -5,7 +5,6 @@ import Tag from '../components/Tag.vue';
 import api from '../services/api';
 import Card from '../components/Card.vue';
 
-import { AxiosResponse } from 'axios';
 import { defineComponent } from '@vue/runtime-core';
 
 type ItemType = {
@@ -88,12 +87,14 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+.wrapper {
+  margin-top: 6rem;
+}
+
 .menu {
-  height: 2000px;
+  padding-top: 2rem;
 
   &__container {
-    margin-top: 2rem;
-
     span {
       opacity: 0.3;
       color: var(--text-color);

@@ -99,9 +99,9 @@ export default defineComponent({
 }
 
 .hero {
-  // background-color: tomato;
-  height: calc(100vh - 6rem);
+  height: calc(100vh);
   z-index: 10;
+  padding-top: 6rem; // navbar height
 
   &__container {
     height: 100%;
@@ -144,7 +144,7 @@ export default defineComponent({
         gap: 1rem;
       }
 
-      @media (max-width: 467px) {
+      @media (max-width: 767px) {
         .title {
           font-size: 4rem;
           line-height: calc(4rem * 1.1);
