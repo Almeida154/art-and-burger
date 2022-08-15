@@ -84,6 +84,7 @@ export default defineComponent({
     background-color: var(--accent-color);
     opacity: 0.2;
     overflow: hidden;
+    z-index: -1;
   }
 
   .blur-fx.first {
@@ -100,89 +101,99 @@ export default defineComponent({
 .hero {
   // background-color: tomato;
   height: calc(100vh - 6rem);
+  z-index: 10;
 
   &__container {
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
 
-  .content {
-    flex: 1;
+    .content {
+      flex: 1;
 
-    .subtitle {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      color: var(--darker-accent-color);
-      letter-spacing: 0.2rem;
-      margin-bottom: 1.2rem;
-      text-shadow: 0 0 32px var(--accent-color);
-    }
-
-    .title {
-      font-size: 5rem;
-      line-height: calc(5rem * 1.1);
-      margin-bottom: 2rem;
-      text-shadow: 0 0 24px rgba(255, 255, 255, 0.25);
-    }
-
-    .description {
-      color: var(--text-color);
-      font-size: 0.9rem;
-      line-height: calc(0.9rem * 2);
-      max-width: 75%;
-      opacity: 0.8;
-    }
-
-    .buttons {
-      margin-top: 2.6rem;
-      display: flex;
-      gap: 1rem;
-    }
-  }
-
-  .illustration {
-    flex: 1;
-    position: relative;
-
-    img {
-      max-width: 110%;
-      // -webkit-transform: scaleX(-1);
-      // transform: scaleX(-1);
-    }
-
-    .price-card {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      position: absolute;
-      top: 60%;
-      left: -10%;
-      background: #fff;
-      padding: 0.8rem 2.2rem;
-      border-radius: 1.2rem;
-      color: var(--dark-color);
-
-      span {
-        font-weight: 600;
+      .subtitle {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: var(--darker-accent-color);
+        letter-spacing: 0.2rem;
+        margin-bottom: 1.2rem;
+        text-shadow: 0 0 32px var(--accent-color);
       }
 
-      .price {
-        margin-top: 0.2rem;
-        font-size: 2rem;
-        color: var(--accent-color);
+      .title {
+        font-size: 5rem;
+        line-height: calc(5rem * 1.1);
+        margin-bottom: 2rem;
+        text-shadow: 0 0 24px rgba(255, 255, 255, 0.25);
+      }
+
+      .description {
+        color: var(--text-color);
+        font-size: 0.9rem;
+        line-height: calc(0.9rem * 2);
+        max-width: 75%;
+        opacity: 0.8;
+      }
+
+      .buttons {
+        margin-top: 2.6rem;
+        display: flex;
+        gap: 1rem;
+      }
+
+      @media (max-width: 467px) {
+        .title {
+          font-size: 4rem;
+          line-height: calc(4rem * 1.1);
+        }
       }
     }
 
-    .arrow {
-      position: absolute;
-      width: 15%;
-      left: -5%;
-      transform: rotate(-30deg);
-      top: 40%;
+    .illustration {
+      flex: 1;
+      position: relative;
+
+      img {
+        max-width: 110%;
+      }
+
+      .price-card {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        position: absolute;
+        top: 60%;
+        left: -10%;
+        background: #fff;
+        padding: 0.8rem 2.2rem;
+        border-radius: 1.2rem;
+        color: var(--dark-color);
+
+        span {
+          font-weight: 600;
+        }
+
+        .price {
+          margin-top: 0.2rem;
+          font-size: 2rem;
+          color: var(--accent-color);
+        }
+      }
+
+      .arrow {
+        position: absolute;
+        width: 15%;
+        left: -5%;
+        transform: rotate(-30deg);
+        top: 40%;
+      }
+
+      @media (max-width: 767px) {
+        display: none;
+      }
     }
   }
 }
