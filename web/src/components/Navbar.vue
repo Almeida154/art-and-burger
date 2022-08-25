@@ -14,6 +14,9 @@ export default defineComponent({
     menu: {
       type: Boolean,
     },
+    adm: {
+      type: Boolean,
+    },
   },
   methods: {
     handleToggleNav() {
@@ -59,6 +62,16 @@ export default defineComponent({
               <li v-show="landing"><a href="#">Contact</a></li>
 
               <li v-show="menu"><a href="#">Orders</a></li>
+
+              <li v-show="adm">
+                <RouterLink to="/adm/all-orders">All orders</RouterLink>
+              </li>
+              <li v-show="adm">
+                <RouterLink to="/adm/new-ingredient">New ingredient</RouterLink>
+              </li>
+              <li v-show="adm">
+                <RouterLink to="/adm/new-item">New item</RouterLink>
+              </li>
             </ul>
 
             <div class="toggle-nav close" id="toggleNav">

@@ -1,17 +1,25 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
+import Navbar from '../../components/Navbar.vue';
 
 export default defineComponent({
   data() {
     return {};
   },
+  components: {
+    Navbar,
+  },
 });
 </script>
 
 <template>
-  <div class="new-ingredient">
-    <div class="new-ingredient__container container">
-      <h2>New Ingredient</h2>
+  <div class="wrapper">
+    <header>
+      <Navbar adm />
+    </header>
+
+    <div class="new-ingredient">
+      <div class="new-ingredient__container container"></div>
     </div>
   </div>
 </template>

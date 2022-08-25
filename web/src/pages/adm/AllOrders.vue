@@ -1,9 +1,13 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
+import Navbar from '../../components/Navbar.vue';
 
 export default defineComponent({
   data() {
     return {};
+  },
+  components: {
+    Navbar,
   },
 });
 </script>
@@ -11,7 +15,7 @@ export default defineComponent({
 <template>
   <div class="wrapper">
     <header>
-      <Navbar landing />
+      <Navbar adm />
     </header>
 
     <div class="all-orders">
