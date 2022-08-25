@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { RouterLink } from 'vue-router';
 import VueFeather from 'vue-feather';
 
 export default defineComponent({
@@ -53,7 +54,7 @@ export default defineComponent({
           <nav class="nav" id="nav">
             <ul>
               <li v-show="landing"><a href="#">Sign in</a></li>
-              <li v-show="landing"><a href="#">Menu</a></li>
+              <li v-show="landing"><RouterLink to="/menu">Menu</RouterLink></li>
               <li v-show="landing"><a href="#">About</a></li>
               <li v-show="landing"><a href="#">Contact</a></li>
 

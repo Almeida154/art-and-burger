@@ -56,8 +56,8 @@ select {
 .container {
   max-width: 1200px;
   margin: 0 2rem;
-  border-left: 1px dashed var(--accent-color);
-  border-right: 1px dashed var(--accent-color);
+  // border-left: 1px dashed var(--accent-color);
+  // border-right: 1px dashed var(--accent-color);
 
   @media (min-width: 1200px) {
     margin: 0 auto;

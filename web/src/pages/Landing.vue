@@ -55,10 +55,20 @@ export default defineComponent({
             <Button text="Sign up" variant="primary" />
             <Button text="Go to menu" @click="handleGoToMenu" />
           </div>
+
+          <img
+            class="mobile-burger"
+            src="img/hero-illustration.png"
+            alt="Burger illustration"
+          />
         </div>
 
         <div class="illustration">
-          <img src="img/hero-illustration.png" alt="Burger illustration" />
+          <img
+            class="burger"
+            src="img/hero-illustration.png"
+            alt="Burger illustration"
+          />
           <img class="arrow" src="img/dotted-arrow.png" alt="Burger illustration" />
           <div class="price-card">
             <span>Only</span>
@@ -144,10 +154,24 @@ export default defineComponent({
         gap: 1rem;
       }
 
+      .mobile-burger {
+        display: none;
+      }
+
       @media (max-width: 767px) {
         .title {
-          font-size: 4rem;
-          line-height: calc(4rem * 1.1);
+          font-size: 3.2rem;
+          line-height: calc(3.2rem * 1.1);
+        }
+
+        .mobile-burger {
+          max-width: 140%;
+          top: 10%;
+          left: -50%;
+          z-index: -1;
+          display: block;
+          position: absolute;
+          opacity: 0.15;
         }
       }
     }
@@ -155,9 +179,13 @@ export default defineComponent({
     .illustration {
       flex: 1;
       position: relative;
+      display: flex;
+      justify-content: center;
 
-      img {
-        max-width: 110%;
+      img.burger {
+        max-width: 120%;
+        text-align: center;
+        opacity: 0.75;
       }
 
       .price-card {
@@ -166,7 +194,7 @@ export default defineComponent({
         flex-direction: column;
         position: absolute;
         top: 60%;
-        left: -10%;
+        left: -16%;
         background: #fff;
         padding: 0.8rem 2.2rem;
         border-radius: 1.2rem;
@@ -185,10 +213,10 @@ export default defineComponent({
 
       .arrow {
         position: absolute;
-        width: 15%;
+        width: 40%;
         left: -5%;
-        transform: rotate(-30deg);
-        top: 40%;
+        transform: rotate(175deg) scaleX(-1);
+        bottom: -5%;
       }
 
       @media (max-width: 767px) {

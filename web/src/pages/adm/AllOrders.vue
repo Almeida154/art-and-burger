@@ -9,9 +9,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="all-orders">
-    <div class="all-orders__container container">
-      <h2>All orders</h2>
+  <div class="wrapper">
+    <header>
+      <Navbar landing />
+    </header>
+
+    <div class="all-orders">
+      <div class="all-orders__container container"></div>
     </div>
   </div>
 </template>

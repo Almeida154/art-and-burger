@@ -22,6 +22,13 @@ const routes = [
   { path: '/adm/new-item', component: NewItem },
 
   {
+    path: '/adm',
+    redirect: () => {
+      return { path: '/adm/all-orders' };
+    },
+  },
+
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFound,
