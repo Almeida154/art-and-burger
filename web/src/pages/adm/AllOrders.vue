@@ -1,13 +1,40 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
+
+import VueFeather from 'vue-feather';
+
 import Navbar from '../../components/Navbar.vue';
+import PageHeader from '../../components/PageHeader.vue';
+import OrderItem from '../../components/OrderItem.vue';
+import Tag from '../../components/Tag.vue';
+
+import api from '../../services/api';
+import Button from '../../components/Button.vue';
+
+type Status = {
+  id: number;
+  desc: string;
+};
 
 export default defineComponent({
   data() {
-    return {};
+    return {
+      statuses: [] as Status[],
+    };
   },
+
+  async created() {
+    const { data } = await api.get<{ statuses: Status[] }>('status');
+    this.statuses = data.statuses;
+  },
+
   components: {
     Navbar,
+    PageHeader,
+    OrderItem,
+    Tag,
+    Button,
+    VueFeather,
   },
 });
 </script>
@@ -19,30 +46,70 @@ export default defineComponent({
     </header>
 
     <div class="all-orders">
-      <div class="all-orders__container container"></div>
+      <div class="all-orders__container container">
+        <PageHeader :title="'All Orders'" :path="'ArtNBurger > Adm > All Orders'" />
+
+        <div class="filters">
+          <div class="tags">
+            <Tag v-for="status in statuses" :key="status.id" :text="status.desc" />
+          </div>
+
+          <div class="update-container">
+            <a class="update">
+              <vue-feather type="refresh-ccw" size="1rem"></vue-feather>
+            </a>
+          </div>
+        </div>
+
+        <div class="orders-list">
+          <OrderItem />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.wrapper {
+  margin-top: 6rem;
+}
+
 .all-orders {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  padding-top: 2rem;
 
   &__container {
-    h2 {
-      font-size: 6rem;
-      font-weight: 600;
-      color: var(--title-color);
+    .filters {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .tags {
+        display: flex;
+        gap: 0.4rem;
+      }
+
+      .update-container {
+        .update {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: none;
+          background: var(--accent-color);
+          padding: 0.6rem;
+          border-radius: 0.4rem;
+          cursor: pointer;
+          color: var(--title-color);
+
+          &:hover {
+            background: var(--darker-accent-color);
+          }
+        }
+      }
     }
 
-    p {
-      font-size: 2rem;
-      margin-top: 0.6rem;
-      font-weight: 300;
-      color: var(--text-color);
+    .orders-list {
+      margin-top: 2rem;
     }
   }
 }

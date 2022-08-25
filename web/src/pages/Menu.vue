@@ -6,6 +6,7 @@ import api from '../services/api';
 import Card from '../components/Card.vue';
 
 import { defineComponent } from '@vue/runtime-core';
+import PageHeader from '../components/PageHeader.vue';
 
 type ItemType = {
   id: number;
@@ -37,18 +38,20 @@ export default defineComponent({
     Navbar,
     Tag,
     Card,
+    PageHeader,
   },
 });
 </script>
 
 <template>
   <div class="wrapper">
-    <Navbar menu />
+    <header>
+      <Navbar menu />
+    </header>
 
     <div class="menu">
       <div class="menu__container container">
-        <span>Art&Burger > Menu</span>
-        <h3>Our menu</h3>
+        <PageHeader :title="'Our menu'" :path="'Art&Burger > Menu'" />
 
         <div class="filters">
           <div class="tags">
@@ -63,17 +66,6 @@ export default defineComponent({
         </div>
 
         <div class="items">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
           <Card />
           <Card />
           <Card />
@@ -95,19 +87,6 @@ export default defineComponent({
   padding-top: 2rem;
 
   &__container {
-    span {
-      opacity: 0.3;
-      color: var(--text-color);
-      word-spacing: 0.4rem;
-    }
-
-    h3 {
-      margin-top: 1rem;
-      font-weight: 400;
-      font-size: 1.8rem;
-      color: var(--title-color);
-    }
-
     .filters {
       margin-top: 2rem;
       display: flex;

@@ -6,6 +6,7 @@ import VueFeather from 'vue-feather';
 export default defineComponent({
   components: {
     VueFeather,
+    RouterLink,
   },
   props: {
     landing: {
