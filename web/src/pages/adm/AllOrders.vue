@@ -5,7 +5,6 @@ import VueFeather from 'vue-feather';
 
 import Navbar from '../../components/Navbar.vue';
 import PageHeader from '../../components/PageHeader.vue';
-import OrderItem from '../../components/OrderItem.vue';
 import Tag from '../../components/Tag.vue';
 
 import api from '../../services/api';
@@ -31,7 +30,6 @@ export default defineComponent({
   components: {
     Navbar,
     PageHeader,
-    OrderItem,
     Tag,
     Button,
     VueFeather,
@@ -47,7 +45,10 @@ export default defineComponent({
 
     <div class="all-orders">
       <div class="all-orders__container container">
-        <PageHeader :title="'All Orders'" :path="'ArtNBurger > Adm > All Orders'" />
+        <PageHeader
+          :title="'All Orders, Admin '"
+          :path="'ArtNBurger > Adm > All Orders'"
+        />
 
         <div class="filters">
           <div class="tags">
@@ -62,7 +63,51 @@ export default defineComponent({
         </div>
 
         <div class="orders-list">
-          <OrderItem />
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Code</th>
+                <th scope="col">Total</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td data-label="Code">
+                  # {{ '06a1356c-0bc7-42c1-81b9-5eedb8d249ef'.slice(0, 8) }}...
+                </td>
+                <td data-label="Total">R$ 260,00</td>
+                <td data-label="Date">29/08/22</td>
+                <td class="status" data-label="Status">
+                  <span class="accepted">Accepted</span>
+                </td>
+              </tr>
+
+              <tr>
+                <td data-label="Code">
+                  # {{ '06a1356c-0bc7-42c1-81b9-5eedb8d249ef'.slice(0, 8) }}...
+                </td>
+                <td data-label="Total">R$ 260,00</td>
+                <td data-label="Date">29/08/22</td>
+                <td class="status" data-label="Status">
+                  <span class="pending">Pending</span>
+                </td>
+              </tr>
+
+              <tr>
+                <td data-label="Code">
+                  # {{ '06a1356c-0bc7-42c1-81b9-5eedb8d249ef'.slice(0, 8) }}...
+                </td>
+                <td data-label="Total">R$ 260,00</td>
+                <td data-label="Date">29/08/22</td>
+                <td class="status" data-label="Status">
+                  <span class="done">Done</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -110,6 +155,101 @@ export default defineComponent({
 
     .orders-list {
       margin-top: 2rem;
+
+      table {
+        border-collapse: separate;
+        width: 100%;
+        table-layout: fixed;
+      }
+
+      table tr {
+        display: flex;
+        border-radius: 0.2rem;
+      }
+
+      table thead tr {
+        background-color: var(--darker-container-color);
+      }
+
+      table tbody tr {
+        cursor: pointer;
+        outline: 1px solid var(--container-color);
+        margin-top: 0.6rem;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          outline: none;
+          background-color: var(--darker-container-color);
+        }
+      }
+
+      table tbody tr td.status span {
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.4rem;
+        margin: 0;
+      }
+
+      table tbody tr td.status span.accepted {
+        background: var(--info-color);
+        color: var(--info-darker-color);
+      }
+
+      table tbody tr td.status span.pending {
+        background: var(--warning-color);
+        color: var(--warning-darker-color);
+      }
+
+      table tbody tr td.status span.done {
+        background: var(--success-color);
+        color: var(--success-darker-color);
+      }
+
+      table th,
+      table td {
+        flex: 1;
+        padding: 1.4rem;
+        text-align: center;
+        font-weight: 300;
+        color: var(--text-color);
+      }
+
+      table th {
+        font-size: 1rem;
+        font-weight: 500;
+        letter-spacing: 0.2rem;
+        text-transform: uppercase;
+        color: var(--title-color);
+      }
+
+      @media screen and (max-width: 667px) {
+        table thead {
+          display: none;
+        }
+
+        table tbody tr {
+          display: block;
+          margin: 0;
+          margin-bottom: 1rem;
+        }
+
+        table tbody td {
+          border-bottom: 1px solid var(--container-color);
+          display: block;
+          font-size: 0.8rem;
+          text-align: right;
+        }
+
+        table td::before {
+          content: attr(data-label);
+          float: left;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+
+        table td:last-child {
+          border-bottom: 0;
+        }
+      }
     }
   }
 }

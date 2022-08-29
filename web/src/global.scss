@@ -15,6 +15,15 @@
   --text-color: #b8b8b8;
   --title-color: #ffffff;
 
+  --success-color: rgba(0, 200, 80, 0.1);
+  --success-darker-color: #007e33;
+  --info-color: rgb(51, 181, 229, 0.1);
+  --info-darker-color: #0099cc;
+  --warning-color: rgb(255, 187, 51, 0.1);
+  --warning-darker-color: #ff8800;
+  --error-color: rgb(241, 68, 68, 0.1);
+  --error-darker-color: #cc0000;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
