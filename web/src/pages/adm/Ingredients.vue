@@ -22,28 +22,78 @@ export default defineComponent({
       <Navbar adm />
     </header>
 
-    <div class="new-ingredient">
-      <div class="new-ingredient__container container">
+    <div class="ingredients">
+      <div class="ingredients__container container">
         <PageHeader
           :title="'Create a new ingredient'"
           :path="'ArtNBurger > Adm > New Ingredient'"
         />
-        <Table
-          style="margin-top: 40px"
-          :columns="['code', 'name', 'price']"
-          :items="[
-            {
-              code: 1,
-              name: 'Tomato',
-              price: '$ 1,00',
-            },
-            {
-              code: 2,
-              name: 'Cheese',
-              price: '$ 1,00',
-            },
-          ]"
-        ></Table>
+
+        <div class="content">
+          <Table
+            :columns="['code', 'name', 'price']"
+            :items="[
+              {
+                code: 1,
+                name: 'Tomato',
+                price: '$ 1,00',
+              },
+              {
+                code: 2,
+                name: 'Cheese',
+                price: '$ 1,00',
+              },
+              {
+                code: 2,
+                name: 'Cheese',
+                price: '$ 1,00',
+              },
+              {
+                code: 2,
+                name: 'Cheese',
+                price: '$ 1,00',
+              },
+              {
+                code: 2,
+                name: 'Cheese',
+                price: '$ 1,00',
+              },
+              {
+                code: 2,
+                name: 'Cheese',
+                price: '$ 1,00',
+              },
+              {
+                code: 2,
+                name: 'Cheese',
+                price: '$ 1,00',
+              },
+              {
+                code: 2,
+                name: 'Cheese',
+                price: '$ 1,00',
+              },
+              {
+                code: 2,
+                name: 'Cheese',
+                price: '$ 1,00',
+              },
+              {
+                code: 2,
+                name: 'Cheese',
+                price: '$ 1,00',
+              },
+              {
+                code: 2,
+                name: 'Cheese',
+                price: '$ 1,00',
+              },
+            ]"
+          ></Table>
+          <div class="sticky-container">
+            <div class="sticky">a</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -54,10 +104,37 @@ export default defineComponent({
   margin-top: 6rem;
 }
 
-.new-ingredient {
+.ingredients {
   padding-top: 2rem;
 
   &__container {
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 0.5fr;
+      column-gap: 1rem;
+      margin-top: 2rem;
+
+      .sticky-container {
+        position: relative;
+        width: 100%;
+
+        .sticky {
+          position: sticky;
+          top: 8rem;
+          border-radius: 0.2rem;
+          background-color: var(--darker-container-color);
+          width: inherit;
+          padding: 1.4rem;
+        }
+      }
+      @media screen and (max-width: 667px) {
+        grid-template-columns: 1fr;
+
+        .sticky-container {
+          display: none;
+        }
+      }
+    }
   }
 }
 </style>
