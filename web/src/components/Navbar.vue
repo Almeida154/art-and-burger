@@ -68,10 +68,10 @@ export default defineComponent({
                 <RouterLink to="/adm/all-orders">All orders</RouterLink>
               </li>
               <li v-show="adm">
-                <RouterLink to="/adm/new-ingredient">New ingredient</RouterLink>
+                <RouterLink to="/adm/ingredients">Ingredients</RouterLink>
               </li>
               <li v-show="adm">
-                <RouterLink to="/adm/new-item">New item</RouterLink>
+                <RouterLink to="/adm/items">Items</RouterLink>
               </li>
             </ul>
 

@@ -7,8 +7,8 @@ import MyOrders from './pages/MyOrders.vue';
 
 // Adm
 import AllOrders from './pages/adm/AllOrders.vue';
-import NewIngredient from './pages/adm/NewIngredient.vue';
-import NewItem from './pages/adm/NewItem.vue';
+import Ingredients from './pages/adm/Ingredients.vue';
+import Items from './pages/adm/Items.vue';
 
 import NotFound from './pages/NotFound.vue';
 
@@ -18,8 +18,8 @@ const routes = [
   { path: '/my-orders', component: MyOrders },
 
   { path: '/adm/all-orders', component: AllOrders },
-  { path: '/adm/new-ingredient', component: NewIngredient },
-  { path: '/adm/new-item', component: NewItem },
+  { path: '/adm/ingredients', component: Ingredients },
+  { path: '/adm/items', component: Items },
 
   {
     path: '/adm',
