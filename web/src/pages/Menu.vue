@@ -84,7 +84,7 @@ export default defineComponent({
 }
 
 .menu {
-  padding-top: 2rem;
+  padding: 2rem 0;
 
   &__container {
     .filters {
