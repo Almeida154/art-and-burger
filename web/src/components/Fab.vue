@@ -3,7 +3,7 @@ import { defineComponent } from 'vue';
 import VueFeather from 'vue-feather';
 
 export default defineComponent({
-  emits: ['click'],
+  defineEmits: ['click'],
   components: {
     VueFeather,
   },

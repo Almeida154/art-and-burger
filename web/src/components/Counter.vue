@@ -8,7 +8,6 @@ export default defineComponent({
       default: 0,
     },
   },
-  // emits: ['subtract, add'],
   defineEmits: ['subtract, add'],
 });
 </script>

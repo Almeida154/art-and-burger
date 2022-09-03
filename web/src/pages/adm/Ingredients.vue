@@ -4,20 +4,28 @@ import Navbar from '../../components/Navbar.vue';
 import PageHeader from '../../components/PageHeader.vue';
 import Table from '../../components/Table.vue';
 import Fab from '../../components/Fab.vue';
+import Sidebar from '../../components/Sidebar.vue';
 
 export default defineComponent({
   data() {
-    return {};
+    return {
+      isOpen: false,
+    };
   },
   components: {
     Navbar,
     PageHeader,
     Table,
     Fab,
+    Sidebar,
   },
   methods: {
-    handleOpenNewIngredientModal() {
-      console.log('opened');
+    handleOpenSidebar() {
+      this.$data.isOpen = true;
+    },
+    onCloseSidebar() {
+      console.log('now we should do a new request');
+      this.$data.isOpen = false;
     },
   },
 });
@@ -121,7 +129,16 @@ export default defineComponent({
       </div>
     </div>
 
-    <Fab icon="plus" @click="handleOpenNewIngredientModal" />
+    <Fab icon="plus" @click="handleOpenSidebar" />
+
+    <Sidebar
+      title="New ingredient"
+      subtitle="Please, fill in all this fields to create a new ingredient."
+      @onCloseSidebar="onCloseSidebar"
+      :isOpen="isOpen"
+    >
+      aabb
+    </Sidebar>
   </div>
 </template>
 
