@@ -59,6 +59,7 @@ export default defineComponent({
           <span>{{ subtitle }}</span>
         </div>
       </div>
+
       <div class="content">
         <div class="content__container container">
           <slot></slot>
@@ -87,7 +88,7 @@ export default defineComponent({
   position: fixed;
   top: 0;
   bottom: 0;
-  right: -75%;
+  right: -100%;
   width: 75%;
   background: -webkit-gradient(
     linear,
@@ -97,7 +98,7 @@ export default defineComponent({
   );
   backdrop-filter: blur(25px) saturate(180%);
   opacity: 0.7;
-  transition: 0.3s ease-in-out;
+  transition: 0.5s ease-in-out;
 
   &.active {
     right: 0;
@@ -135,16 +136,10 @@ export default defineComponent({
       }
     }
   }
-
-  .content {
-  }
 }
 
 .container {
   margin: 0;
   padding: 2rem;
-
-  @media (max) {
-  }
 }
 </style>

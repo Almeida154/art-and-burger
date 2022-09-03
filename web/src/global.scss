@@ -6,9 +6,9 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.871);
 
-  --dark-color: #000000;
-  --container-color: #1b1b1b;
-  --darker-container-color: #0a0a0a;
+  --dark-color: rgb(0, 0, 0);
+  --container-color: rgb(27, 27, 27);
+  --darker-container-color: rgb(10, 10, 10);
   --light-color: #f6f6f6;
   --accent-color: #ff0000;
   --darker-accent-color: #ff0000d2;
@@ -23,6 +23,9 @@
   --warning-darker-color: #ff8800;
   --error-color: rgb(241, 68, 68, 0.1);
   --error-darker-color: #cc0000;
+
+  --disabled-color: #616161;
+  --disabled-darker-color: #363636;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

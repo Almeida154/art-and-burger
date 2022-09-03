@@ -31,11 +31,12 @@ export default defineComponent({
   font-size: 0.9rem;
   text-transform: uppercase;
   padding: 0.8rem 1.6rem;
-  border-radius: 0.8rem;
+  border-radius: 0.4rem;
   font-weight: 500;
   cursor: pointer;
   text-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
   border: none;
+  transition: 0.3s ease-in;
 
   &:hover {
     color: var(--text-color);
@@ -48,6 +49,16 @@ export default defineComponent({
   &:hover {
     background-color: var(--darker-accent-color);
     color: var(--title-color);
+  }
+}
+
+.disabled {
+  background-color: var(--disabled-color);
+  color: var(--disabled-darker-color);
+
+  &:hover {
+    background-color: var(--disabled-darker-color);
+    color: var(--disabled-color);
   }
 }
 </style>

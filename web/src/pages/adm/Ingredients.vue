@@ -5,11 +5,15 @@ import PageHeader from '../../components/PageHeader.vue';
 import Table from '../../components/Table.vue';
 import Fab from '../../components/Fab.vue';
 import Sidebar from '../../components/Sidebar.vue';
+import Input from '../../components/Input.vue';
+import Button from '../../components/Button.vue';
 
 export default defineComponent({
   data() {
     return {
       isOpen: false,
+      ingredientName: '',
+      ingredientPrice: 0,
     };
   },
   components: {
@@ -18,6 +22,8 @@ export default defineComponent({
     Table,
     Fab,
     Sidebar,
+    Input,
+    Button,
   },
   methods: {
     handleOpenSidebar() {
@@ -26,6 +32,13 @@ export default defineComponent({
     onCloseSidebar() {
       console.log('now we should do a new request');
       this.$data.isOpen = false;
+    },
+    handleCreateIngredient() {
+      if (this.ingredientName != '' && this.ingredientPrice != 0) {
+        console.log('creating');
+      } else {
+        console.log('something went wrong');
+      }
     },
   },
 });
@@ -137,7 +150,17 @@ export default defineComponent({
       @onCloseSidebar="onCloseSidebar"
       :isOpen="isOpen"
     >
-      aabb
+      <form>
+        <Input firstOne placeholder="Name" v-model="ingredientName" />
+        <Input lastOne placeholder="Price" v-model="ingredientPrice" />
+        <Button
+          :variant="
+            ingredientName != '' && ingredientPrice != 0 ? 'primary' : 'disabled'
+          "
+          text="Create"
+          @click="handleCreateIngredient"
+        ></Button>
+      </form>
     </Sidebar>
   </div>
 </template>
@@ -201,6 +224,24 @@ export default defineComponent({
         }
       }
     }
+  }
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+  transition: 0.3s ease-in;
+
+  @media (max-width: 456px) {
+    width: 100%;
+  }
+
+  .btn {
+    margin-top: 1rem;
+    max-width: 340px;
   }
 }
 </style>
