@@ -12,20 +12,59 @@ import Button from '../../components/Button.vue';
 import Table from '../../components/Table.vue';
 
 type Status = {
-  id: number;
+  id: string;
   desc: string;
+};
+
+type Item = {
+  id: string;
+  name: string;
+  price: string;
+  type: string;
+  ingredients: [{ name: string }];
+};
+
+type Order = {
+  id: string;
+  totalPrice: string;
+  orderedAt: string;
+  status: {
+    desc: string;
+  };
+  items: Item[];
 };
 
 export default defineComponent({
   data() {
     return {
       statuses: [] as Status[],
+      columns: ['id', 'total', 'date', 'status'],
+      items: [
+        {
+          id: 'cb91ab90-4d82-4019-91db-88186f96c575',
+          total: '$138',
+          date: '29/08/22',
+          status: 'accepted',
+        },
+        {
+          id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
+          total: '$138',
+          date: '29/08/22',
+          status: 'done',
+        },
+      ],
     };
   },
 
   async created() {
     const { data } = await api.get<{ statuses: Status[] }>('status');
     this.statuses = data.statuses;
+  },
+
+  methods: {
+    onItemClick(order: Order) {
+      console.log(order.id);
+    },
   },
 
   components: {
@@ -66,27 +105,9 @@ export default defineComponent({
 
         <div class="orders-list">
           <Table
-            :columns="['code', 'total', 'date', 'status']"
-            :items="[
-              {
-                code: `# ${'06a1356c-0bc7-42c1-81b9-5eedb8d249ef'.slice(0, 8)}...`,
-                total: '$138',
-                date: '29/08/22',
-                status: 'accepted',
-              },
-              {
-                code: `# ${'06a1356c-0bc7-42c1-81b9-5eedb8d249ef'.slice(0, 8)}...`,
-                total: '$138',
-                date: '29/08/22',
-                status: 'done',
-              },
-              {
-                code: `# ${'06a1356c-0bc7-42c1-81b9-5eedb8d249ef'.slice(0, 8)}...`,
-                total: '$138',
-                date: '29/08/22',
-                status: 'pending',
-              },
-            ]"
+            :columns="columns"
+            :items="items"
+            @onItemClick="onItemClick"
           ></Table>
         </div>
       </div>

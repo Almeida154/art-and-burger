@@ -11,6 +11,8 @@ export default defineComponent({
     };
   },
 
+  defineEmits: ['onItemClick'],
+
   props: {
     columns: {
       type: [] as PropType<string[]>,
@@ -35,9 +37,13 @@ export default defineComponent({
     </thead>
 
     <tbody>
-      <tr v-for="(item, i) in items" :key="i">
+      <tr v-for="(item, i) in items" :key="i" @click="$emit('onItemClick', item)">
         <td v-for="j in columnsLength" :key="j" :data-label="columns[j - 1]">
-          {{ item[columns[j - 1]] }}
+          {{
+            columns[j - 1] !== 'id'
+              ? item[columns[j - 1]]
+              : `# ${item[columns[j - 1]].slice(0, 8)}...`
+          }}
         </td>
         <td v-if="columns.includes('status')" class="status" data-label="Status">
           <span :class="item.status">{{ item.status }}</span>
