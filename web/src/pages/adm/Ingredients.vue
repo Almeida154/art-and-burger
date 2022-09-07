@@ -22,9 +22,12 @@ export default defineComponent({
     return {
       isSidebarOpen: false,
       isModalOpen: false,
-      modalItemClicked: {} as Ingredient,
-      ingredientName: '',
-      ingredientPrice: 0,
+      selectedIngredient: {} as Ingredient,
+      updatedIngredient: {} as Ingredient,
+      newIngredient: {
+        name: '',
+        price: 0,
+      } as Ingredient,
     };
   },
   components: {
@@ -39,36 +42,40 @@ export default defineComponent({
     VueFeather,
   },
   methods: {
-    handleOpenSidebar() {
-      this.$data.isSidebarOpen = true;
+    toggleSidebar() {
+      this.$data.isSidebarOpen = !this.$data.isSidebarOpen;
     },
     onCloseSidebar() {
       console.log('now we should do a new request');
       this.$data.isSidebarOpen = false;
     },
-    handleOpenModal() {
-      this.$data.isModalOpen = true;
+    toggleModal() {
+      this.$data.isModalOpen = !this.$data.isModalOpen;
     },
     onCloseModal() {
       console.log('now we should do a new request');
       this.$data.isModalOpen = false;
     },
     handleCreateIngredient() {
-      if (this.ingredientName != '' && this.ingredientPrice != 0) {
+      if (this.newIngredient.name != '' && this.newIngredient.price != 0) {
         console.log('creating');
       } else {
         console.log('something went wrong');
       }
     },
-    handleUpdateIngredient() {
-      console.log(this.$data.modalItemClicked);
+    handleUpdateIngredient(id: string) {
+      console.log(this.$data.updatedIngredient);
+      this.toggleModal();
     },
     handleDeleteIngredient(id: string) {
       console.log('ingredient to delete: ', id);
+      this.toggleModal();
     },
     onItemClick(ingredient: Ingredient) {
-      this.handleOpenModal();
-      this.modalItemClicked = ingredient;
+      this.toggleModal();
+      this.$data.selectedIngredient = ingredient;
+      this.$data.updatedIngredient.name = ingredient.name;
+      this.$data.updatedIngredient.price = ingredient.price;
     },
   },
 });
@@ -173,7 +180,7 @@ export default defineComponent({
       </div>
     </div>
 
-    <Fab icon="plus" @click="handleOpenSidebar" />
+    <Fab icon="plus" @click="toggleSidebar" />
 
     <Sidebar
       title="New ingredient"
@@ -182,11 +189,13 @@ export default defineComponent({
       :isOpen="isSidebarOpen"
     >
       <form class="sidebar">
-        <Input firstOne placeholder="Name" v-model="ingredientName" />
-        <Input lastOne placeholder="Price" v-model="ingredientPrice" />
+        <Input firstOne placeholder="Name" v-model="newIngredient.name" />
+        <Input lastOne placeholder="Price" v-model="newIngredient.price" />
         <Button
           :variant="
-            ingredientName != '' && ingredientPrice != 0 ? 'primary' : 'disabled'
+            newIngredient.name != '' && newIngredient.price != 0
+              ? 'primary'
+              : 'disabled'
           "
           text="Create"
           @click="handleCreateIngredient"
@@ -195,7 +204,7 @@ export default defineComponent({
     </Sidebar>
 
     <Modal
-      :title="modalItemClicked.name"
+      :title="selectedIngredient.name"
       subtitle="You can edit, delete or view this ingredient."
       @onCloseModal="onCloseModal"
       :isOpen="isModalOpen"
@@ -204,28 +213,28 @@ export default defineComponent({
         <Input
           firstOne
           placeholder="Name"
-          :value="modalItemClicked.name"
-          v-model="modalItemClicked.name"
+          :value="updatedIngredient.name"
+          v-model="updatedIngredient.name"
         />
         <Input
           lastOne
           placeholder="Price"
-          :value="modalItemClicked.price"
-          v-model="modalItemClicked.price"
+          :value="updatedIngredient.price"
+          v-model="updatedIngredient.price"
         />
         <Button
           :variant="
-            modalItemClicked.name != '' && modalItemClicked.price != 0
+            updatedIngredient.name != '' && updatedIngredient.price != 0
               ? 'primary'
               : 'disabled'
           "
           text="Update"
-          @click="handleUpdateIngredient"
+          @click="handleUpdateIngredient(selectedIngredient.id)"
         ></Button>
         <Button
           variant="secondary"
           text="Delete"
-          @click="handleDeleteIngredient(modalItemClicked.id)"
+          @click="handleDeleteIngredient(selectedIngredient.id)"
         ></Button>
       </form>
     </Modal>
