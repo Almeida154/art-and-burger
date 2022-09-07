@@ -19,7 +19,7 @@ type Status = {
 type Item = {
   id: string;
   name: string;
-  price: string;
+  price: number;
   type: string;
   ingredients: [{ name: string }];
 };

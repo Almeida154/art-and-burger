@@ -24,6 +24,13 @@
   --error-color: rgb(241, 68, 68, 0.1);
   --error-darker-color: #cc0000;
 
+  --meat-color: rgba(128, 51, 0, 0.1);
+  --meat-darker-color: #6d2c00;
+  --veggie-color: var(--success-color);
+  --veggie-darker-color: var(--success-darker-color);
+  --drink-color: rgba(126, 126, 126, 0.1);
+  --drink-darker-color: #8f8f8f;
+
   --disabled-color: #616161;
   --disabled-darker-color: #363636;
 

@@ -22,11 +22,12 @@ export default defineComponent({
     return {
       isSidebarOpen: false,
       isModalOpen: false,
-      selectedIngredient: {} as Ingredient,
-      updatedIngredient: {} as Ingredient,
       mayDelete: false,
       deleteInterval: {} as ReturnType<typeof setInterval>,
       deleteTime: 3,
+      ingredients: [] as Ingredient[],
+      selectedIngredient: {} as Ingredient,
+      updatedIngredient: {} as Ingredient,
       newIngredient: {
         name: '',
         price: 0,

@@ -5,7 +5,9 @@ import type { PropType } from 'vue';
 export default defineComponent({
   data() {
     return {
-      columnsLength: this.$props.columns.includes('status')
+      columnsLength: ['status', 'type'].some((condition) =>
+        this.$props.columns.includes(condition)
+      )
         ? this.$props.columns.length - 1
         : this.$props.columns.length,
     };
@@ -48,6 +50,9 @@ export default defineComponent({
         <td v-if="columns.includes('status')" class="status" data-label="Status">
           <span :class="item.status">{{ item.status }}</span>
         </td>
+        <td v-if="columns.includes('type')" class="type" data-label="Type">
+          <span :class="item.type">{{ item.type }}</span>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -85,7 +90,7 @@ table tbody tr td span {
   text-transform: capitalize;
 }
 
-table tbody tr td.status span {
+table tbody tr :where(td.status, td.type) span {
   padding: 0.4rem 0.8rem;
   border-radius: 0.4rem;
   margin: 0;
@@ -106,6 +111,21 @@ table tbody tr td.status span.done {
   color: var(--success-darker-color);
 }
 
+table tbody tr td.type span.meat {
+  background: var(--meat-color);
+  color: var(--meat-darker-color);
+}
+
+table tbody tr td.type span.drink {
+  background: var(--drink-color);
+  color: var(--drink-darker-color);
+}
+
+table tbody tr td.type span.veggie {
+  background: var(--veggie-color);
+  color: var(--veggie-darker-color);
+}
+
 table th,
 table td {
   flex: 1;
@@ -113,6 +133,10 @@ table td {
   text-align: center;
   font-weight: 300;
   color: var(--text-color);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 table th {
