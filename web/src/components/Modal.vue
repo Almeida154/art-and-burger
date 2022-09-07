@@ -121,7 +121,7 @@ export default defineComponent({
   );
   backdrop-filter: blur(25px) saturate(180%);
   border-radius: 0.4rem;
-  overflow: hidden;
+  overflow: auto;
   display: none;
   opacity: 0;
   transition: 0.2s ease-in-out;
@@ -134,8 +134,12 @@ export default defineComponent({
     opacity: 1;
   }
 
-  @media (max-width: 456px) {
-    width: 100%;
+  @media (max-width: 556px) {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-radius: 0rem;
   }
 
   .header {
@@ -172,7 +176,10 @@ export default defineComponent({
 }
 
 .container {
-  margin: 0;
   padding: 1.6rem;
+
+  @media (max-width: 556px) {
+    margin: 0;
+  }
 }
 </style>

@@ -99,13 +99,14 @@ export default defineComponent({
   backdrop-filter: blur(25px) saturate(180%);
   opacity: 0.7;
   transition: 0.5s ease-in-out;
+  overflow: auto;
 
   &.active {
     right: 0;
     opacity: 1;
   }
 
-  @media (max-width: 456px) {
+  @media (max-width: 667px) {
     width: 100%;
   }
 

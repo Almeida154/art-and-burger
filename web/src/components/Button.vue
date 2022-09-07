@@ -52,6 +52,17 @@ export default defineComponent({
   }
 }
 
+.secondary {
+  outline: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  text-shadow: none;
+
+  &:hover {
+    outline: 1px solid var(--darker-accent-color);
+    color: var(--darker-accent-color);
+  }
+}
+
 .disabled {
   background-color: var(--disabled-color);
   color: var(--disabled-darker-color);

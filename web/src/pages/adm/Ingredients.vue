@@ -1,5 +1,7 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
+import VueFeather from 'vue-feather';
+
 import Navbar from '../../components/Navbar.vue';
 import PageHeader from '../../components/PageHeader.vue';
 import Table from '../../components/Table.vue';
@@ -34,6 +36,7 @@ export default defineComponent({
     Input,
     Button,
     Modal,
+    VueFeather,
   },
   methods: {
     handleOpenSidebar() {
@@ -56,6 +59,12 @@ export default defineComponent({
       } else {
         console.log('something went wrong');
       }
+    },
+    handleUpdateIngredient() {
+      console.log(this.$data.modalItemClicked);
+    },
+    handleDeleteIngredient(id: string) {
+      console.log('ingredient to delete: ', id);
     },
     onItemClick(ingredient: Ingredient) {
       this.handleOpenModal();
@@ -172,7 +181,7 @@ export default defineComponent({
       @onCloseSidebar="onCloseSidebar"
       :isOpen="isSidebarOpen"
     >
-      <form>
+      <form class="sidebar">
         <Input firstOne placeholder="Name" v-model="ingredientName" />
         <Input lastOne placeholder="Price" v-model="ingredientPrice" />
         <Button
@@ -186,11 +195,40 @@ export default defineComponent({
     </Sidebar>
 
     <Modal
-      title="The ingredient"
-      subtitle="You can edit, delete"
+      :title="modalItemClicked.name"
+      subtitle="You can edit, delete or view this ingredient."
       @onCloseModal="onCloseModal"
       :isOpen="isModalOpen"
-    />
+    >
+      <form class="modal">
+        <Input
+          firstOne
+          placeholder="Name"
+          :value="modalItemClicked.name"
+          v-model="modalItemClicked.name"
+        />
+        <Input
+          lastOne
+          placeholder="Price"
+          :value="modalItemClicked.price"
+          v-model="modalItemClicked.price"
+        />
+        <Button
+          :variant="
+            modalItemClicked.name != '' && modalItemClicked.price != 0
+              ? 'primary'
+              : 'disabled'
+          "
+          text="Update"
+          @click="handleUpdateIngredient"
+        ></Button>
+        <Button
+          variant="secondary"
+          text="Delete"
+          @click="handleDeleteIngredient(modalItemClicked.id)"
+        ></Button>
+      </form>
+    </Modal>
   </div>
 </template>
 
@@ -261,11 +299,19 @@ form {
   justify-content: center;
   flex-direction: column;
   width: 50%;
-  margin: 2rem auto 0;
+  margin: 0 auto;
   transition: 0.3s ease-in;
 
-  @media (max-width: 456px) {
-    width: 100%;
+  &.sidebar {
+    @media (max-width: 667px) {
+      width: 100%;
+    }
+  }
+
+  &.modal {
+    @media (max-width: 767px) {
+      width: 100%;
+    }
   }
 
   .btn {
