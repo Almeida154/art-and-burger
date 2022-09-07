@@ -68,7 +68,9 @@ class IngredientsController {
 
   async all(req: Request, res: Response) {
     const ingredientRepository = AppDataSource.getRepository(Ingredient);
-    const ingredients = await ingredientRepository.find();
+    const ingredients = await ingredientRepository.find({
+      order: { price: 'DESC' },
+    });
 
     if (ingredients.length === 0) {
       return res.status(404).send({ msg: 'No ingredients found' });

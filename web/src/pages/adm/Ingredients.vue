@@ -25,15 +25,20 @@ export default defineComponent({
 
       isSidebarOpen: false,
       isModalOpen: false,
+
       mayDelete: false,
       deleteInterval: {} as ReturnType<typeof setInterval>,
       deleteTime: 3,
+
       selectedIngredient: {} as Ingredient,
       updatedIngredient: {} as Ingredient,
       newIngredient: {
         name: '',
         price: 0,
       } as Ingredient,
+
+      moreExpensive: 0,
+      cheaper: 0,
     };
   },
   components: {
@@ -48,8 +53,8 @@ export default defineComponent({
     VueFeather,
   },
   methods: {
-    toggleSidebar() {
-      this.$data.isSidebarOpen = !this.$data.isSidebarOpen;
+    handleOpenSidebar() {
+      this.$data.isSidebarOpen = true;
     },
     onCloseSidebar() {
       this.$data.isSidebarOpen = false;
@@ -63,19 +68,26 @@ export default defineComponent({
 
     async handleGetIngredients() {
       const { data } = await api.get<Ingredient[]>('ingredients');
-      console.log(data);
-
       this.$data.ingredients = data;
+
+      const prices = data.map((ingredient: Ingredient) => Number(ingredient.price));
+      this.$data.cheaper = Math.min(...prices);
+      this.$data.moreExpensive = Math.max(...prices);
     },
     async handleCreateIngredient() {
       if (this.newIngredient.name != '' && this.newIngredient.price != 0) {
-        console.log('creating');
+        const { data } = await api.post('ingredient', this.$data.newIngredient);
         this.handleGetIngredients();
+        this.$data.isSidebarOpen = false;
       } else {
         console.log('something went wrong');
       }
     },
     async handleUpdateIngredient(id: string) {
+      const { data } = await api.put(
+        `ingredient/${id}`,
+        this.$data.updatedIngredient
+      );
       this.handleGetIngredients();
       this.toggleModal();
     },
@@ -86,6 +98,8 @@ export default defineComponent({
         clearInterval(this.$data.deleteInterval);
         this.$data.mayDelete = false;
         this.toggleModal();
+
+        const { data } = await api.delete(`ingredient/${id}`);
         this.handleGetIngredients();
       } else {
         this.$data.mayDelete = true;
@@ -138,17 +152,17 @@ export default defineComponent({
               <h4>General ingredients details</h4>
               <div class="detail-item">
                 <p>Total</p>
-                <span>06</span>
+                <span>{{ ingredients.length }}</span>
               </div>
 
               <div class="detail-item">
                 <p>More expensive</p>
-                <span>$ 3</span>
+                <span>$ {{ moreExpensive }}</span>
               </div>
 
               <div class="detail-item">
                 <p>Cheaper:</p>
-                <span>$ 0.2</span>
+                <span>$ {{ cheaper }}</span>
               </div>
             </div>
           </div>
@@ -156,7 +170,7 @@ export default defineComponent({
       </div>
     </div>
 
-    <Fab icon="plus" @click="toggleSidebar" />
+    <Fab icon="plus" @click="handleOpenSidebar" />
 
     <Sidebar
       title="New ingredient"
