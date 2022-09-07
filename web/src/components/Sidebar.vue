@@ -15,11 +15,11 @@ export default defineComponent({
   methods: {
     closeSidebar() {
       const sidebar = document.querySelector('#sidebar');
-      const outside = document.querySelector('#outside');
+      const sidebarOutside = document.querySelector('#sidebarOutside');
 
-      if (sidebar && outside) {
+      if (sidebar && sidebarOutside) {
         sidebar.classList.remove('active');
-        outside.classList.remove('active');
+        sidebarOutside.classList.remove('active');
       }
 
       this.$emit('onCloseSidebar');
@@ -27,11 +27,11 @@ export default defineComponent({
 
     openSidebar() {
       const sidebar = document.querySelector('#sidebar');
-      const outside = document.querySelector('#outside');
+      const sidebarOutside = document.querySelector('#sidebarOutside');
 
-      if (sidebar && outside) {
+      if (sidebar && sidebarOutside) {
         sidebar.classList.add('active');
-        outside.classList.add('active');
+        sidebarOutside.classList.add('active');
       }
 
       this.$emit('onOpenSidebar');
@@ -66,12 +66,12 @@ export default defineComponent({
         </div>
       </div>
     </div>
-    <div class="outside" id="outside" @click="closeSidebar"></div>
+    <div class="sidebar-outside" id="sidebarOutside" @click="closeSidebar"></div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.outside {
+.sidebar-outside {
   z-index: 999;
   position: fixed;
   top: 0;

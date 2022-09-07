@@ -35,7 +35,7 @@ export default defineComponent({
   border-top: none;
   padding: 1rem;
   outline: none;
-  max-width: 340px;
+  max-width: 540px;
 }
 
 .first-one {

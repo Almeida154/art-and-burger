@@ -7,11 +7,20 @@ import Fab from '../../components/Fab.vue';
 import Sidebar from '../../components/Sidebar.vue';
 import Input from '../../components/Input.vue';
 import Button from '../../components/Button.vue';
+import Modal from '../../components/Modal.vue';
+
+type Ingredient = {
+  id: string;
+  name: string;
+  price: number;
+};
 
 export default defineComponent({
   data() {
     return {
-      isOpen: false,
+      isSidebarOpen: false,
+      isModalOpen: false,
+      modalItemClicked: {} as Ingredient,
       ingredientName: '',
       ingredientPrice: 0,
     };
@@ -24,14 +33,22 @@ export default defineComponent({
     Sidebar,
     Input,
     Button,
+    Modal,
   },
   methods: {
     handleOpenSidebar() {
-      this.$data.isOpen = true;
+      this.$data.isSidebarOpen = true;
     },
     onCloseSidebar() {
       console.log('now we should do a new request');
-      this.$data.isOpen = false;
+      this.$data.isSidebarOpen = false;
+    },
+    handleOpenModal() {
+      this.$data.isModalOpen = true;
+    },
+    onCloseModal() {
+      console.log('now we should do a new request');
+      this.$data.isModalOpen = false;
     },
     handleCreateIngredient() {
       if (this.ingredientName != '' && this.ingredientPrice != 0) {
@@ -39,6 +56,10 @@ export default defineComponent({
       } else {
         console.log('something went wrong');
       }
+    },
+    onItemClick(ingredient: Ingredient) {
+      this.handleOpenModal();
+      this.modalItemClicked = ingredient;
     },
   },
 });
@@ -59,64 +80,65 @@ export default defineComponent({
 
         <div class="content">
           <Table
-            :columns="['code', 'name', 'price']"
+            :columns="['id', 'name', 'price']"
             :items="[
               {
-                code: 1,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Tomato',
                 price: '$ 1,00',
               },
               {
-                code: 2,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Cheese',
                 price: '$ 1,00',
               },
               {
-                code: 2,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Cheese',
                 price: '$ 1,00',
               },
               {
-                code: 2,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Cheese',
                 price: '$ 1,00',
               },
               {
-                code: 2,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Cheese',
                 price: '$ 1,00',
               },
               {
-                code: 2,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Cheese',
                 price: '$ 1,00',
               },
               {
-                code: 2,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Cheese',
                 price: '$ 1,00',
               },
               {
-                code: 2,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Cheese',
                 price: '$ 1,00',
               },
               {
-                code: 2,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Cheese',
                 price: '$ 1,00',
               },
               {
-                code: 2,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Cheese',
                 price: '$ 1,00',
               },
               {
-                code: 2,
+                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
                 name: 'Cheese',
                 price: '$ 1,00',
               },
             ]"
+            @onItemClick="onItemClick"
           ></Table>
 
           <div class="sticky-container">
@@ -148,7 +170,7 @@ export default defineComponent({
       title="New ingredient"
       subtitle="Please, fill in all this fields to create a new ingredient."
       @onCloseSidebar="onCloseSidebar"
-      :isOpen="isOpen"
+      :isOpen="isSidebarOpen"
     >
       <form>
         <Input firstOne placeholder="Name" v-model="ingredientName" />
@@ -162,6 +184,13 @@ export default defineComponent({
         ></Button>
       </form>
     </Sidebar>
+
+    <Modal
+      title="The ingredient"
+      subtitle="You can edit, delete"
+      @onCloseModal="onCloseModal"
+      :isOpen="isModalOpen"
+    />
   </div>
 </template>
 
@@ -232,7 +261,7 @@ form {
   justify-content: center;
   flex-direction: column;
   width: 50%;
-  margin: 0 auto;
+  margin: 2rem auto 0;
   transition: 0.3s ease-in;
 
   @media (max-width: 456px) {
@@ -241,7 +270,7 @@ form {
 
   .btn {
     margin-top: 1rem;
-    max-width: 340px;
+    max-width: 540px;
   }
 }
 </style>
