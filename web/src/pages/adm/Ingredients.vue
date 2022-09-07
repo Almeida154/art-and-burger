@@ -24,6 +24,9 @@ export default defineComponent({
       isModalOpen: false,
       selectedIngredient: {} as Ingredient,
       updatedIngredient: {} as Ingredient,
+      mayDelete: false,
+      deleteInterval: {} as ReturnType<typeof setInterval>,
+      deleteTime: 3,
       newIngredient: {
         name: '',
         price: 0,
@@ -68,8 +71,24 @@ export default defineComponent({
       this.toggleModal();
     },
     handleDeleteIngredient(id: string) {
-      console.log('ingredient to delete: ', id);
-      this.toggleModal();
+      this.$data.deleteTime = 3;
+
+      if (this.$data.mayDelete) {
+        clearInterval(this.$data.deleteInterval);
+        this.$data.mayDelete = false;
+        this.toggleModal();
+        console.log('ingredient to delete: ', id);
+      } else {
+        this.$data.mayDelete = true;
+
+        this.$data.deleteInterval = setInterval(() => {
+          this.$data.deleteTime--;
+          if (this.$data.deleteTime == 0) {
+            clearInterval(this.$data.deleteInterval);
+            this.$data.mayDelete = false;
+          }
+        }, 1 * 1000);
+      }
     },
     onItemClick(ingredient: Ingredient) {
       this.toggleModal();
@@ -233,7 +252,7 @@ export default defineComponent({
         ></Button>
         <Button
           variant="secondary"
-          text="Delete"
+          :text="mayDelete ? `Confirm delete? ${deleteTime}s` : 'Delete'"
           @click="handleDeleteIngredient(selectedIngredient.id)"
         ></Button>
       </form>
