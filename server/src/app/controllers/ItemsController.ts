@@ -110,7 +110,7 @@ class ItemsController {
       })
     );
 
-    return res.json({ formattedItems });
+    return res.json({ items: formattedItems });
   }
 }
 

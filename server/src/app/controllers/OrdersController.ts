@@ -69,11 +69,7 @@ class OrdersController {
     const formattedOrders = await Promise.all(
       orders.map(async (order) => {
         const items = await itemsRepository.find({
-          where: {
-            itemToIngredients: {
-              item: true,
-            },
-          },
+          where: { orderToItems: { orderId: order.id } },
         });
 
         return {
@@ -86,7 +82,7 @@ class OrdersController {
       })
     );
 
-    return res.status(200).json(formattedOrders);
+    return res.status(200).json({ orders: formattedOrders });
   }
 
   async count(req: Request, res: Response) {
