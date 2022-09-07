@@ -11,6 +11,8 @@ const routes = express.Router();
 
 routes.get('/ingredients', IngredientsController.all);
 routes.post('/ingredient', IngredientsController.create);
+routes.put('/ingredient/:id', IngredientsController.update);
+routes.delete('/ingredient/:id', IngredientsController.delete);
 
 routes.get('/items', ItemsController.all);
 routes.post('/item', ItemsController.create);

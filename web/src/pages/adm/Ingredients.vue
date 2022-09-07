@@ -10,6 +10,7 @@ import Sidebar from '../../components/Sidebar.vue';
 import Input from '../../components/Input.vue';
 import Button from '../../components/Button.vue';
 import Modal from '../../components/Modal.vue';
+import api from '../../services/api';
 
 type Ingredient = {
   id: string;
@@ -20,12 +21,13 @@ type Ingredient = {
 export default defineComponent({
   data() {
     return {
+      ingredients: [] as Ingredient[],
+
       isSidebarOpen: false,
       isModalOpen: false,
       mayDelete: false,
       deleteInterval: {} as ReturnType<typeof setInterval>,
       deleteTime: 3,
-      ingredients: [] as Ingredient[],
       selectedIngredient: {} as Ingredient,
       updatedIngredient: {} as Ingredient,
       newIngredient: {
@@ -50,35 +52,41 @@ export default defineComponent({
       this.$data.isSidebarOpen = !this.$data.isSidebarOpen;
     },
     onCloseSidebar() {
-      console.log('now we should do a new request');
       this.$data.isSidebarOpen = false;
     },
     toggleModal() {
       this.$data.isModalOpen = !this.$data.isModalOpen;
     },
     onCloseModal() {
-      console.log('now we should do a new request');
       this.$data.isModalOpen = false;
     },
-    handleCreateIngredient() {
+
+    async handleGetIngredients() {
+      const { data } = await api.get<Ingredient[]>('ingredients');
+      console.log(data);
+
+      this.$data.ingredients = data;
+    },
+    async handleCreateIngredient() {
       if (this.newIngredient.name != '' && this.newIngredient.price != 0) {
         console.log('creating');
+        this.handleGetIngredients();
       } else {
         console.log('something went wrong');
       }
     },
-    handleUpdateIngredient(id: string) {
-      console.log(this.$data.updatedIngredient);
+    async handleUpdateIngredient(id: string) {
+      this.handleGetIngredients();
       this.toggleModal();
     },
-    handleDeleteIngredient(id: string) {
+    async handleDeleteIngredient(id: string) {
       this.$data.deleteTime = 3;
 
       if (this.$data.mayDelete) {
         clearInterval(this.$data.deleteInterval);
         this.$data.mayDelete = false;
         this.toggleModal();
-        console.log('ingredient to delete: ', id);
+        this.handleGetIngredients();
       } else {
         this.$data.mayDelete = true;
 
@@ -91,12 +99,16 @@ export default defineComponent({
         }, 1 * 1000);
       }
     },
+
     onItemClick(ingredient: Ingredient) {
       this.toggleModal();
       this.$data.selectedIngredient = ingredient;
       this.$data.updatedIngredient.name = ingredient.name;
       this.$data.updatedIngredient.price = ingredient.price;
     },
+  },
+  mounted() {
+    this.handleGetIngredients();
   },
 });
 </script>
@@ -117,63 +129,7 @@ export default defineComponent({
         <div class="content">
           <Table
             :columns="['id', 'name', 'price']"
-            :items="[
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Tomato',
-                price: '$ 1,00',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheese',
-                price: '$ 1,00',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheese',
-                price: '$ 1,00',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheese',
-                price: '$ 1,00',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheese',
-                price: '$ 1,00',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheese',
-                price: '$ 1,00',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheese',
-                price: '$ 1,00',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheese',
-                price: '$ 1,00',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheese',
-                price: '$ 1,00',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheese',
-                price: '$ 1,00',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheese',
-                price: '$ 1,00',
-              },
-            ]"
+            :items="ingredients"
             @onItemClick="onItemClick"
           ></Table>
 

@@ -19,10 +19,28 @@ type Item = {
   ingredients: [{ name: string }];
 };
 
+type ItemType = {
+  id: number;
+  desc: string;
+};
+
+type Ingredient = {
+  id: string;
+  name: string;
+  price: number;
+};
+
 export default defineComponent({
   data() {
     return {
       items: [] as Item[],
+      types: [] as ItemType[],
+      ingredients: [] as Ingredient[],
+
+      isSidebarOpen: false,
+      isModalOpen: false,
+
+      newItem: {} as Item,
     };
   },
   components: {
@@ -37,6 +55,20 @@ export default defineComponent({
     VueFeather,
   },
   methods: {
+    toggleSidebar() {
+      this.$data.isSidebarOpen = !this.$data.isSidebarOpen;
+    },
+    onCloseSidebar() {
+      console.log('now we should do a new request');
+      this.$data.isSidebarOpen = false;
+    },
+    handleCreateItem() {
+      if (this.newItem.name != '' && this.newItem.price != 0) {
+        console.log('creating');
+      } else {
+        console.log('something went wrong');
+      }
+    },
     onItemClick(item: Item) {},
   },
 });
@@ -48,8 +80,8 @@ export default defineComponent({
       <Navbar adm />
     </header>
 
-    <div class="ingredients">
-      <div class="ingredients__container container">
+    <div class="items">
+      <div class="items__container container">
         <PageHeader :title="'Registered Items'" :path="'ArtNBurger > Adm > Items'" />
 
         <div class="content">
@@ -100,6 +132,27 @@ export default defineComponent({
         </div>
       </div>
     </div>
+
+    <Fab icon="plus" @click="toggleSidebar" />
+
+    <Sidebar
+      title="New item"
+      subtitle="Please, fill in all this fields to create a new item."
+      @onCloseSidebar="onCloseSidebar"
+      :isOpen="isSidebarOpen"
+    >
+      <form class="sidebar">
+        <Input firstOne placeholder="Name" v-model="newItem.name" />
+        <Input lastOne placeholder="Price" v-model="newItem.price" />
+        <Button
+          :variant="
+            newItem.name != '' && newItem.price != 0 ? 'primary' : 'disabled'
+          "
+          text="Create"
+          @click="handleCreateItem"
+        ></Button>
+      </form>
+    </Sidebar>
   </div>
 </template>
 
@@ -108,7 +161,7 @@ export default defineComponent({
   position: relative;
   margin-top: 6rem;
 }
-.ingredients {
+.items {
   padding: 2rem 0;
 
   &__container {
