@@ -89,7 +89,7 @@ export default defineComponent({
   top: 0;
   bottom: 0;
   right: -100%;
-  width: 75%;
+  width: 60%;
   background: -webkit-gradient(
     linear,
     left top,

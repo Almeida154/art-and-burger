@@ -10,6 +10,10 @@ import Sidebar from '../../components/Sidebar.vue';
 import Input from '../../components/Input.vue';
 import Button from '../../components/Button.vue';
 import Modal from '../../components/Modal.vue';
+import Tag from '../../components/Tag.vue';
+
+import api from '../../services/api';
+import Select from '../../components/Select.vue';
 
 type Item = {
   id: number;
@@ -30,17 +34,26 @@ type Ingredient = {
   price: number;
 };
 
+type Status = {
+  id: string;
+  desc: string;
+};
+
 export default defineComponent({
   data() {
     return {
       items: [] as Item[],
-      types: [] as ItemType[],
+      itemTypes: [] as ItemType[],
       ingredients: [] as Ingredient[],
+      statuses: [] as Status[],
 
       isSidebarOpen: false,
       isModalOpen: false,
 
       newItem: {} as Item,
+
+      moreExpensive: 0,
+      cheaper: 0,
     };
   },
   components: {
@@ -53,23 +66,52 @@ export default defineComponent({
     Button,
     Modal,
     VueFeather,
+    Tag,
+    Select,
   },
   methods: {
-    toggleSidebar() {
-      this.$data.isSidebarOpen = !this.$data.isSidebarOpen;
+    handleOpenSidebar() {
+      this.$data.isSidebarOpen = true;
     },
     onCloseSidebar() {
       console.log('now we should do a new request');
       this.$data.isSidebarOpen = false;
     },
-    handleCreateItem() {
+
+    async handleGetItems() {
+      const { data } = await api.get<Item[]>('items');
+      this.$data.items = data;
+
+      const prices = data.map((item: Item) => Number(item.price));
+      this.$data.cheaper = Math.min(...prices);
+      this.$data.moreExpensive = Math.max(...prices);
+    },
+    async handleCreateItem() {
       if (this.newItem.name != '' && this.newItem.price != 0) {
         console.log('creating');
       } else {
         console.log('something went wrong');
       }
     },
+    async handleUpdateItem(id: string) {},
+    async handleDeleteItem(id: string) {},
+
+    async handleGetStatuses() {
+      const { data } = await api.get<{ statuses: Status[] }>('status');
+      this.statuses = data.statuses;
+    },
+
+    async handleGetItemTypes() {
+      const { data } = await api.get<{ itemTypes: ItemType[] }>('item-types');
+      this.itemTypes = data.itemTypes;
+    },
+
     onItemClick(item: Item) {},
+  },
+  mounted() {
+    this.handleGetItems();
+    this.handleGetStatuses();
+    this.handleGetItemTypes();
   },
 });
 </script>
@@ -84,29 +126,14 @@ export default defineComponent({
       <div class="items__container container">
         <PageHeader :title="'Registered Items'" :path="'ArtNBurger > Adm > Items'" />
 
+        <div class="tags">
+          <Tag v-for="status in statuses" :key="status.id" :text="status.desc" />
+        </div>
+
         <div class="content">
           <Table
             :columns="['id', 'name', 'price', 'type']"
-            :items="[
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Cheeseburger',
-                price: '$ 10,00',
-                type: 'meat',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Veggieburger M',
-                price: '$ 7,00',
-                type: 'veggie',
-              },
-              {
-                id: '23decce5-6ea6-402c-b259-1823fad6f5ca',
-                name: 'Coca-Cola 300 ML',
-                price: '$ 2,00',
-                type: 'drink',
-              },
-            ]"
+            :items="items"
             @onItemClick="onItemClick"
           ></Table>
 
@@ -115,17 +142,17 @@ export default defineComponent({
               <h4>General items details</h4>
               <div class="detail-item">
                 <p>Total</p>
-                <span>06</span>
+                <span>{{ items.length }}</span>
               </div>
 
               <div class="detail-item">
                 <p>More expensive</p>
-                <span>$ 3</span>
+                <span>$ {{ moreExpensive }}</span>
               </div>
 
               <div class="detail-item">
                 <p>Cheaper:</p>
-                <span>$ 0.2</span>
+                <span>$ {{ cheaper }}</span>
               </div>
             </div>
           </div>
@@ -133,7 +160,7 @@ export default defineComponent({
       </div>
     </div>
 
-    <Fab icon="plus" @click="toggleSidebar" />
+    <Fab icon="plus" @click="handleOpenSidebar" />
 
     <Sidebar
       title="New item"
@@ -143,7 +170,14 @@ export default defineComponent({
     >
       <form class="sidebar">
         <Input firstOne placeholder="Name" v-model="newItem.name" />
-        <Input lastOne placeholder="Price" v-model="newItem.price" />
+        <Input placeholder="Price" v-model="newItem.price" />
+        <Select
+          lastOne
+          :searchable="false"
+          :options="itemTypes"
+          label="desc"
+          placeholder="Type"
+        ></Select>
         <Button
           :variant="
             newItem.name != '' && newItem.price != 0 ? 'primary' : 'disabled'
@@ -165,6 +199,12 @@ export default defineComponent({
   padding: 2rem 0;
 
   &__container {
+    .tags {
+      margin-top: 2rem;
+      display: flex;
+      gap: 0.4rem;
+    }
+
     .content {
       display: grid;
       grid-template-columns: 1fr 0.5fr;
@@ -214,6 +254,32 @@ export default defineComponent({
         }
       }
     }
+  }
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+  transition: 0.3s ease-in;
+
+  &.sidebar {
+    @media (max-width: 667px) {
+      width: 100%;
+    }
+  }
+
+  &.modal {
+    @media (max-width: 767px) {
+      width: 100%;
+    }
+  }
+
+  .btn {
+    margin-top: 1rem;
+    max-width: 540px;
   }
 }
 </style>

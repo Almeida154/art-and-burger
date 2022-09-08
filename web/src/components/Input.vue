@@ -36,6 +36,7 @@ export default defineComponent({
   padding: 1rem;
   outline: none;
   max-width: 540px;
+  font-size: 0.9rem;
 }
 
 .first-one {
