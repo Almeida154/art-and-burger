@@ -5,11 +5,6 @@ import type { PropType } from 'vue';
 import VSelect from 'vue-select';
 
 export default defineComponent({
-  data() {
-    return {
-      input: '',
-    };
-  },
   props: {
     firstOne: Boolean,
     lastOne: Boolean,
@@ -19,11 +14,13 @@ export default defineComponent({
   components: {
     VSelect,
   },
+  emits: ['input'],
 });
 </script>
 
 <template>
-  <VSelect
+  <v-select
+    @input="$emit('input')"
     :options="options"
     :label="label"
     class="input"
@@ -81,14 +78,21 @@ export default defineComponent({
 
 :deep(.vs__dropdown-menu) {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -1px;
+  right: -1px;
   top: 56px;
   list-style-type: none;
-  background: var(--darker-container-color);
   outline: 2px solid var(--container-color);
   padding: 0.6rem 0;
   border-radius: 0.4rem;
+
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(6, 6, 6, 0.98))
+  );
+  backdrop-filter: blur(10px) saturate(180%);
 }
 
 :deep(.vs__dropdown-option) {

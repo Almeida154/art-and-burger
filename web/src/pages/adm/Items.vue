@@ -11,21 +11,21 @@ import Input from '../../components/Input.vue';
 import Button from '../../components/Button.vue';
 import Modal from '../../components/Modal.vue';
 import Tag from '../../components/Tag.vue';
+import Select from '../../components/Select.vue';
 
 import api from '../../services/api';
-import Select from '../../components/Select.vue';
+
+type ItemType = {
+  id: number;
+  desc: string;
+};
 
 type Item = {
   id: number;
   name: string;
   price: number;
-  type: string;
-  ingredients: [{ name: string }];
-};
-
-type ItemType = {
-  id: number;
-  desc: string;
+  itemType: ItemType;
+  ingredients: [{ name: string; id: string }];
 };
 
 type Ingredient = {
@@ -107,6 +107,10 @@ export default defineComponent({
     },
 
     onItemClick(item: Item) {},
+
+    setSelectedItemType(itemType: ItemType) {
+      console.log('aaaaaaaa', itemType);
+    },
   },
   mounted() {
     this.handleGetItems();
@@ -177,8 +181,18 @@ export default defineComponent({
           :options="itemTypes"
           label="desc"
           placeholder="Type"
+          @input="setSelectedItemType"
         ></Select>
+
+        <div class="ingredients">
+          <div class="header">
+            <p>Ingredients:</p>
+            <Button text="New Ingredient" leftIcon="plus"></Button>
+          </div>
+        </div>
+
         <Button
+          class="send"
           :variant="
             newItem.name != '' && newItem.price != 0 ? 'primary' : 'disabled'
           "
@@ -269,6 +283,26 @@ form {
     @media (max-width: 667px) {
       width: 100%;
     }
+    .ingredients {
+      margin-top: 1rem;
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--error-color);
+
+        .btn {
+          color: var(--accent-color);
+          text-shadow: none;
+          padding-right: 0;
+
+          &:hover {
+            text-shadow: 0 0 48px var(--accent-color);
+          }
+        }
+      }
+    }
   }
 
   &.modal {
@@ -277,7 +311,7 @@ form {
     }
   }
 
-  .btn {
+  .btn.send {
     margin-top: 1rem;
     max-width: 540px;
   }

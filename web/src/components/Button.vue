@@ -1,30 +1,35 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
+import VueFeather from 'vue-feather';
 
 export default defineComponent({
   props: {
     text: String,
     url: String,
     variant: String,
+    leftIcon: String,
+    rightIcon: String,
   },
-  data() {
-    return {
-      click() {
-        console.log('click');
-      },
-    };
+  components: {
+    VueFeather,
   },
 });
 </script>
 
 <template>
   <button v:on="$listeners" :class="`btn ${variant ? variant : ''}`">
+    <VueFeather class="ic" :type="leftIcon" v-show="leftIcon" />
     {{ text }}
+    <VueFeather class="ic" :type="rightIcon" v-show="rightIcon" />
   </button>
 </template>
 
 <style lang="scss" scoped>
 .btn {
+  gap: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 3rem;
   color: var(--title-color);
   background: none;

@@ -109,8 +109,8 @@ export default defineComponent({
 .modal {
   z-index: 1000;
   position: fixed;
-  top: 10%;
-  bottom: 10%;
+  height: min-content;
+  bottom: -100%;
   right: 15%;
   left: 15%;
   background: -webkit-gradient(
@@ -120,7 +120,8 @@ export default defineComponent({
     from(rgba(27, 27, 27, 0.7))
   );
   backdrop-filter: blur(25px) saturate(180%);
-  border-radius: 0.4rem;
+  border-top-left-radius: 0.4rem;
+  border-top-right-radius: 0.4rem;
   overflow: auto;
   display: none;
   opacity: 0;
@@ -132,10 +133,10 @@ export default defineComponent({
 
   &.show {
     opacity: 1;
+    bottom: 0;
   }
 
   @media (max-width: 556px) {
-    top: 0;
     bottom: 0;
     right: 0;
     left: 0;
@@ -172,6 +173,10 @@ export default defineComponent({
         color: var(--text-color);
       }
     }
+  }
+
+  .content__container {
+    padding: 4rem 0;
   }
 }
 
