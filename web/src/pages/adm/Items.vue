@@ -17,21 +17,21 @@ import api from '../../services/api';
 
 type ItemType = {
   id: number;
-  desc: string;
-};
-
-type Item = {
-  id: number;
-  name: string;
-  price: number;
-  itemType: ItemType;
-  ingredients: [{ name: string; id: string }];
+  desc: string | null;
 };
 
 type Ingredient = {
   id: string;
   name: string;
   price: number;
+};
+
+type Item = {
+  id: number;
+  name: string;
+  price: number;
+  itemType: ItemType | null;
+  ingredients: Ingredient[] | null;
 };
 
 type Status = {
@@ -50,7 +50,14 @@ export default defineComponent({
       isSidebarOpen: false,
       isModalOpen: false,
 
-      newItem: {} as Item,
+      newItem: {
+        name: '',
+        price: 0,
+        itemType: {
+          desc: null,
+        },
+        ingredients: null,
+      } as Item,
 
       moreExpensive: 0,
       cheaper: 0,
@@ -106,16 +113,29 @@ export default defineComponent({
       this.itemTypes = data.itemTypes;
     },
 
-    onItemClick(item: Item) {},
-
-    setSelectedItemType(itemType: ItemType) {
-      console.log('aaaaaaaa', itemType);
+    async handleGetIngredients() {
+      const { data } = await api.get<Ingredient[]>('ingredients');
+      this.$data.ingredients = data;
     },
+
+    setItemTypeSelected(itemType: ItemType) {
+      this.$data.newItem.itemType = itemType;
+
+      if (this.$data.newItem.ingredients !== null) return;
+
+      if (this.$data.ingredients[0]) {
+        const initialIngredient: Ingredient = this.$data.ingredients[0];
+        this.$data.newItem.ingredients = [initialIngredient];
+      }
+    },
+
+    onItemClick(item: Item) {},
   },
   mounted() {
     this.handleGetItems();
     this.handleGetStatuses();
     this.handleGetItemTypes();
+    this.handleGetIngredients();
   },
 });
 </script>
@@ -181,20 +201,35 @@ export default defineComponent({
           :options="itemTypes"
           label="desc"
           placeholder="Type"
-          @input="setSelectedItemType"
+          @setItemTypeSelected="setItemTypeSelected"
         ></Select>
 
-        <div class="ingredients">
+        <div
+          class="ingredients"
+          v-show="
+            (newItem.itemType && newItem.itemType.desc) !== null &&
+            (newItem.itemType && newItem.itemType.desc) !== 'drink'
+          "
+        >
           <div class="header">
             <p>Ingredients:</p>
             <Button text="New Ingredient" leftIcon="plus"></Button>
+          </div>
+
+          <div class="ingredients-list">
+            {{ newItem.ingredients ?? 'sem ingredients' }}
           </div>
         </div>
 
         <Button
           class="send"
           :variant="
-            newItem.name != '' && newItem.price != 0 ? 'primary' : 'disabled'
+            newItem.name != '' &&
+            newItem.price != 0 &&
+            newItem.itemType &&
+            newItem.itemType.desc !== null
+              ? 'primary'
+              : 'disabled'
           "
           text="Create"
           @click="handleCreateItem"
@@ -275,13 +310,27 @@ form {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 50%;
+  width: 60%;
   margin: 0 auto;
   transition: 0.3s ease-in;
 
   &.sidebar {
+    .btn.send {
+      margin-top: 1rem;
+      max-width: 540px;
+    }
+
+    @media (max-width: 1024px) {
+      width: 100%;
+    }
+
     @media (max-width: 667px) {
       width: 100%;
+
+      .input,
+      .btn.send {
+        max-width: 100%;
+      }
     }
     .ingredients {
       margin-top: 1rem;
@@ -309,11 +358,6 @@ form {
     @media (max-width: 767px) {
       width: 100%;
     }
-  }
-
-  .btn.send {
-    margin-top: 1rem;
-    max-width: 540px;
   }
 }
 </style>

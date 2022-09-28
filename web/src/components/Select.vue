@@ -11,18 +11,31 @@ export default defineComponent({
     options: [] as PropType<any[]>,
     label: String,
   },
-  components: {
-    VSelect,
+  computed: {
+    selected: {
+      get() {},
+      set(value: any) {
+        this.$emit('setItemTypeSelected', value);
+      },
+    },
   },
-  emits: ['input'],
+  components: {
+    'v-select': VSelect,
+  },
+  methods: {
+    setSelected: () => {
+      console.log('changed');
+    },
+  },
 });
 </script>
 
 <template>
   <v-select
-    @input="$emit('input')"
+    v-model="selected"
     :options="options"
     :label="label"
+    @input="setSelected"
     class="input"
     :class="{ 'first-one': firstOne, 'last-one': lastOne }"
   />
