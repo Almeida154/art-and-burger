@@ -106,6 +106,8 @@ export default defineComponent({
     from(rgba(6, 6, 6, 0.98))
   );
   backdrop-filter: blur(10px) saturate(180%);
+
+  z-index: 1000;
 }
 
 :deep(.vs__dropdown-option) {

@@ -1,9 +1,9 @@
 <script lang="ts">
 import Navbar from '../components/Navbar.vue';
 import Tag from '../components/Tag.vue';
+import Card from '../components/Card.vue';
 
 import api from '../services/api';
-import Card from '../components/Card.vue';
 
 import { defineComponent } from '@vue/runtime-core';
 import PageHeader from '../components/PageHeader.vue';

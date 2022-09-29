@@ -14,6 +14,7 @@ import Tag from '../../components/Tag.vue';
 import Select from '../../components/Select.vue';
 
 import api from '../../services/api';
+import IngredientItem from '../../components/IngredientItem.vue';
 
 type ItemType = {
   id: number;
@@ -75,11 +76,13 @@ export default defineComponent({
     VueFeather,
     Tag,
     Select,
+    IngredientItem,
   },
   methods: {
     handleOpenSidebar() {
       this.$data.isSidebarOpen = true;
     },
+
     onCloseSidebar() {
       console.log('now we should do a new request');
       this.$data.isSidebarOpen = false;
@@ -93,6 +96,7 @@ export default defineComponent({
       this.$data.cheaper = Math.min(...prices);
       this.$data.moreExpensive = Math.max(...prices);
     },
+
     async handleCreateItem() {
       if (this.newItem.name != '' && this.newItem.price != 0) {
         console.log('creating');
@@ -100,7 +104,9 @@ export default defineComponent({
         console.log('something went wrong');
       }
     },
+
     async handleUpdateItem(id: string) {},
+
     async handleDeleteItem(id: string) {},
 
     async handleGetStatuses() {
@@ -127,6 +133,21 @@ export default defineComponent({
         const initialIngredient: Ingredient = this.$data.ingredients[0];
         this.$data.newItem.ingredients = [initialIngredient];
       }
+    },
+
+    setIngredientSelected(ingredient: Ingredient, index: number) {
+      if (this.$data.newItem.ingredients) {
+        this.$data.newItem.ingredients[index] = ingredient;
+      }
+    },
+
+    handleRemoveIngredient(index: number) {
+      if (this.$data.newItem.ingredients?.length == 1) return;
+      this.$data.newItem.ingredients?.splice(index, 1);
+    },
+
+    handleAddIngredient() {
+      this.$data.newItem.ingredients?.push({} as Ingredient);
     },
 
     onItemClick(item: Item) {},
@@ -213,12 +234,28 @@ export default defineComponent({
         >
           <div class="header">
             <p>Ingredients:</p>
-            <Button text="New Ingredient" leftIcon="plus"></Button>
+            <Button
+              text="New Ingredient"
+              leftIcon="plus"
+              @click="handleAddIngredient"
+            ></Button>
           </div>
 
-          <div class="ingredients-list">
-            {{ newItem.ingredients ?? 'sem ingredients' }}
+          <div class="ingredient-list">
+            <IngredientItem
+              v-for="(ingredient, index) in newItem.ingredients"
+              :key="ingredient.id"
+              :ingredient="ingredient"
+              :ingredients="ingredients"
+              :alreadySelectedIngredients="newItem.ingredients ?? []"
+              @setIngredientSelected="
+                (newIngredient) => setIngredientSelected(newIngredient, index)
+              "
+              @removeIngredient="handleRemoveIngredient(index)"
+            />
           </div>
+
+          {{ newItem.ingredients ?? [] }}
         </div>
 
         <Button
@@ -244,6 +281,7 @@ export default defineComponent({
   position: relative;
   margin-top: 6rem;
 }
+
 .items {
   padding: 2rem 0;
 
@@ -295,6 +333,7 @@ export default defineComponent({
           }
         }
       }
+
       @media screen and (max-width: 667px) {
         grid-template-columns: 1fr;
 
@@ -339,16 +378,24 @@ form {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 1px solid var(--error-color);
+        border-bottom: 1px solid var(--container-color);
 
         .btn {
           color: var(--accent-color);
           text-shadow: none;
-          padding-right: 0;
+          padding: 0;
 
           &:hover {
             text-shadow: 0 0 48px var(--accent-color);
           }
+        }
+      }
+
+      .ingredient-list {
+        margin: 1rem 0;
+
+        .ingredient-item + .ingredient-item {
+          margin-top: 0.8rem;
         }
       }
     }
