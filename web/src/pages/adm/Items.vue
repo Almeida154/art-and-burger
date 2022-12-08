@@ -27,12 +27,19 @@ type Ingredient = {
   price: number;
 };
 
+type IngredientToSend = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+};
+
 type Item = {
   id: number;
   name: string;
   price: number;
   itemType: ItemType | null;
-  ingredients: Ingredient[] | null;
+  ingredients: IngredientToSend[] | null;
 };
 
 type Status = {
@@ -63,6 +70,23 @@ export default defineComponent({
       moreExpensive: 0,
       cheaper: 0,
     };
+  },
+  computed: {
+    cost() {
+      // @ts-ignore
+      return this.$data.newItem.ingredients
+        ?.filter((ingredient: IngredientToSend) => ingredient.id)
+        ?.reduce(
+          (acc: number, ingredient: IngredientToSend) =>
+            acc + ingredient.price * ingredient.quantity,
+          0
+        )
+        .toFixed(2);
+    },
+    recommendedPrice() {
+      // @ts-ignore
+      return (Number(this.cost) + this.cost * 0.3).toFixed(2);
+    },
   },
   components: {
     Navbar,
@@ -130,14 +154,23 @@ export default defineComponent({
       if (this.$data.newItem.ingredients !== null) return;
 
       if (this.$data.ingredients[0]) {
-        const initialIngredient: Ingredient = this.$data.ingredients[0];
+        const initialIngredient: IngredientToSend = {
+          ...this.$data.ingredients[0],
+          quantity: 1,
+        };
         this.$data.newItem.ingredients = [initialIngredient];
       }
     },
 
-    setIngredientSelected(ingredient: Ingredient, index: number) {
+    setIngredientSelected(ingredient: IngredientToSend, index: number) {
       if (this.$data.newItem.ingredients) {
         this.$data.newItem.ingredients[index] = ingredient;
+      }
+    },
+
+    handleUpdateIngredientQty(qty: number, index: number) {
+      if (this.$data.newItem.ingredients) {
+        this.$data.newItem.ingredients[index].quantity = qty;
       }
     },
 
@@ -147,7 +180,11 @@ export default defineComponent({
     },
 
     handleAddIngredient() {
-      this.$data.newItem.ingredients?.push({} as Ingredient);
+      this.$data.newItem.ingredients?.push({} as IngredientToSend);
+    },
+
+    handleFormSubmit(e: Event) {
+      e.preventDefault();
     },
 
     onItemClick(item: Item) {},
@@ -213,11 +250,13 @@ export default defineComponent({
       @onCloseSidebar="onCloseSidebar"
       :isOpen="isSidebarOpen"
     >
-      <form class="sidebar">
+      <form class="sidebar" v-on:submit="handleFormSubmit">
         <Input firstOne placeholder="Name" v-model="newItem.name" />
-        <Input placeholder="Price" v-model="newItem.price" />
         <Select
-          lastOne
+          :lastOne="
+            (newItem.itemType && newItem.itemType.desc) === null ||
+            (newItem.itemType && newItem.itemType.desc) !== 'drink'
+          "
           :searchable="false"
           :options="itemTypes"
           label="desc"
@@ -251,12 +290,31 @@ export default defineComponent({
               @setIngredientSelected="
                 (newIngredient) => setIngredientSelected(newIngredient, index)
               "
+              @setIngredientQuantity="(qty) => handleUpdateIngredientQty(qty, index)"
               @removeIngredient="handleRemoveIngredient(index)"
             />
           </div>
-
-          {{ newItem.ingredients ?? [] }}
         </div>
+
+        <div
+          class="prices"
+          v-show="
+            (newItem.itemType && newItem.itemType.desc) !== null &&
+            (newItem.itemType && newItem.itemType.desc) !== 'drink'
+          "
+        >
+          <p>Cost: $ {{ cost }}</p>
+          <p>|</p>
+          <p>Recommended price: $ {{ recommendedPrice }}</p>
+        </div>
+
+        <Input
+          placeholder="Price"
+          v-model="newItem.price"
+          v-show="(newItem.itemType && newItem.itemType.desc) !== null"
+          lastOne
+          :firstOne="(newItem.itemType && newItem.itemType.desc) !== 'drink'"
+        />
 
         <Button
           class="send"
@@ -397,6 +455,17 @@ form {
         .ingredient-item + .ingredient-item {
           margin-top: 0.8rem;
         }
+      }
+    }
+
+    .prices {
+      display: flex;
+      margin-bottom: 8px;
+      gap: 16px;
+
+      p {
+        font-size: 10px;
+        opacity: 0.2;
       }
     }
   }

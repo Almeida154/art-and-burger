@@ -6,6 +6,11 @@ import { Item } from '../entities/Item';
 import { ItemToIngredient } from '../entities/ItemToIngredient';
 import { ItemType } from '../entities/ItemType';
 
+interface IngredientToSave {
+  quantity: number;
+  ingredient: Ingredient;
+}
+
 class ItemsController {
   async create(req: Request, res: Response) {
     const itemRepository = AppDataSource.getRepository(Item);
@@ -13,7 +18,7 @@ class ItemsController {
     const ingredientRepository = AppDataSource.getRepository(Ingredient);
     const itemToIngredientRepository = AppDataSource.getRepository(ItemToIngredient);
 
-    const { name, price, itemTypeId, ingredientIds } = req.body;
+    const { name, price, itemTypeId, ingredients = [] } = req.body;
 
     if (!name) return res.status(406).send({ msg: 'Name is required' });
     if (!price) return res.status(406).send({ msg: 'Price is required' });
@@ -37,19 +42,24 @@ class ItemsController {
       return res.status(201).json(item);
     }
 
-    if (!ingredientIds) {
+    if (!ingredients) {
       return res.status(406).send({ msg: 'Ingredients are required' });
     }
 
-    if (ingredientIds.length < 2) {
+    if (ingredients.length < 2) {
       return res.status(406).send({ msg: 'Must provide more than one ingredient' });
     }
 
-    const ingredients: Ingredient[] = await Promise.all(
-      ingredientIds.map(async (ingredientId: string) => {
-        return await ingredientRepository.findOneBy({
-          id: ingredientId,
+    const ingredientsToSave: IngredientToSave[] = await Promise.all(
+      ingredients.map(async (ingredient: { id: string; quantity: number }) => {
+        const ingredientToSave = await ingredientRepository.findOneBy({
+          id: ingredient.id,
         });
+
+        return {
+          ingredient: ingredientToSave,
+          quantity: ingredient.quantity,
+        };
       })
     );
 
@@ -61,10 +71,11 @@ class ItemsController {
 
     await itemRepository.save(item);
 
-    ingredients.map(async (ingredient) => {
+    ingredientsToSave.forEach(async (ingredientToSave: IngredientToSave) => {
       const itemToIngredient = itemToIngredientRepository.create({
         item,
-        ingredient,
+        ingredient: ingredientToSave.ingredient,
+        quantity: ingredientToSave.quantity,
       });
 
       await itemToIngredientRepository.save(itemToIngredient);

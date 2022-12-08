@@ -17,6 +17,7 @@ export class CreateItemsToIngredientsTable1659579782198
           },
           { name: 'itemId', type: 'uuid' },
           { name: 'ingredientId', type: 'uuid' },
+          { name: 'quantity', type: 'numeric' },
         ],
         foreignKeys: [
           {

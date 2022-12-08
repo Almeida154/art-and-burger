@@ -15,9 +15,8 @@ type Ingredient = {
 export default defineComponent({
   data() {
     return {
+      ingredients: this.$props.ingredients,
       count: 1,
-      availableIngredients: this.$props.ingredients,
-      alreadySelectedIngredients: this.$props.alreadySelectedIngredients,
     };
   },
   props: {
@@ -25,9 +24,6 @@ export default defineComponent({
       type: Object as PropType<Ingredient>,
     },
     ingredients: {
-      type: [] as PropType<Ingredient[]>,
-    },
-    alreadySelectedIngredients: {
       type: [] as PropType<Ingredient[]>,
     },
   },
@@ -39,25 +35,31 @@ export default defineComponent({
         }
       },
       set(value: any) {
-        this.$emit('setIngredientSelected', value);
+        this.$emit('setIngredientSelected', {
+          ...value,
+          quantity: this.count,
+        });
+      },
+    },
+    quantity: {
+      get() {
+        return this.$data.count;
+      },
+      set(qty: number) {
+        this.$data.count = qty;
+        this.$emit('setIngredientQuantity', qty);
       },
     },
   },
   methods: {
     add() {
-      this.count++;
+      this.quantity++;
     },
     subtract() {
-      if (this.count > 1) {
-        this.count--;
+      if (this.quantity > 1) {
+        this.quantity--;
       }
     },
-  },
-  mounted() {
-    this.$data.availableIngredients = this.$props.ingredients?.filter(
-      (ingredient: Ingredient) =>
-        !this.$props.alreadySelectedIngredients?.includes(ingredient)
-    );
   },
   components: { Counter, VueFeather, VSelect },
 });
@@ -68,12 +70,17 @@ export default defineComponent({
     <v-select
       v-model="selected"
       :searchable="true"
-      :options="availableIngredients"
+      :options="ingredients"
       label="name"
       class="name"
       placeholder="Choose a ingredient..."
     />
-    <Counter class="counter" :count="count" @add="add" @subtract="subtract" />
+    <Counter
+      class="counter"
+      v-bind:count="quantity"
+      @add="add"
+      @subtract="subtract"
+    />
     <div @click="$emit('removeIngredient')" class="icon">
       <VueFeather class="ic" type="trash" size="1.2rem" />
     </div>

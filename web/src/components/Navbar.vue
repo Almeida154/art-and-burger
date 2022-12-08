@@ -52,7 +52,10 @@ export default defineComponent({
 <template>
   <header class="header" id="header">
     <div class="header__container container">
-      <img src="img/accent-brand.svg" alt="ArtNBurger brand image" />
+      <img
+        src="http://127.0.0.1:5173/img/accent-brand.svg"
+        alt="ArtNBurger brand image"
+      />
       <div class="header__content">
         <div class="links">
           <nav class="nav" id="nav">

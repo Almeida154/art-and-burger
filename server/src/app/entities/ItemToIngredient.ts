@@ -13,6 +13,9 @@ export class ItemToIngredient {
   @Column('uuid')
   ingredientId!: string;
 
+  @Column('numeric')
+  quantity!: number;
+
   @ManyToOne(() => Item, (item) => item.itemToIngredients)
   item!: Item;
 
