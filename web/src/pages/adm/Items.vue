@@ -15,6 +15,7 @@ import Select from '../../components/Select.vue';
 
 import api from '../../services/api';
 import IngredientItem from '../../components/IngredientItem.vue';
+import { createItem, deleteItem } from '../../services/ItemsService';
 
 type ItemType = {
   id: number;
@@ -35,7 +36,7 @@ type IngredientToSend = {
 };
 
 type Item = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   itemType: ItemType | null;
@@ -66,6 +67,13 @@ export default defineComponent({
         },
         ingredients: null,
       } as Item,
+
+      selectedItem: {} as Item,
+      updatedItem: {} as Item,
+
+      mayDelete: false,
+      deleteInterval: {} as ReturnType<typeof setInterval>,
+      deleteTime: 3,
 
       moreExpensive: 0,
       cheaper: 0,
@@ -112,6 +120,14 @@ export default defineComponent({
       this.$data.isSidebarOpen = false;
     },
 
+    toggleModal() {
+      this.$data.isModalOpen = !this.$data.isModalOpen;
+    },
+
+    onCloseModal() {
+      this.$data.isModalOpen = false;
+    },
+
     async handleGetItems() {
       const { data } = await api.get<Item[]>('items');
       this.$data.items = data;
@@ -121,17 +137,50 @@ export default defineComponent({
       this.$data.moreExpensive = Math.max(...prices);
     },
 
+    handleResetNewItem() {
+      this.newItem = {
+        name: '',
+        price: 0,
+        itemType: {
+          desc: null,
+        },
+        ingredients: null,
+      } as Item;
+    },
+
     async handleCreateItem() {
       if (this.newItem.name != '' && this.newItem.price != 0) {
-        console.log('creating');
-      } else {
-        console.log('something went wrong');
+        await createItem(this.newItem);
+        this.handleResetNewItem();
+        this.handleGetItems();
+        this.isModalOpen = false;
       }
     },
 
     async handleUpdateItem(id: string) {},
 
-    async handleDeleteItem(id: string) {},
+    async handleDeleteItem(id: string) {
+      this.$data.deleteTime = 3;
+
+      if (this.$data.mayDelete) {
+        clearInterval(this.$data.deleteInterval);
+        this.$data.mayDelete = false;
+        this.toggleModal();
+
+        await deleteItem(this.selectedItem);
+        this.handleGetItems();
+      } else {
+        this.$data.mayDelete = true;
+
+        this.$data.deleteInterval = setInterval(() => {
+          this.$data.deleteTime--;
+          if (this.$data.deleteTime == 0) {
+            clearInterval(this.$data.deleteInterval);
+            this.$data.mayDelete = false;
+          }
+        }, 1 * 1000);
+      }
+    },
 
     async handleGetStatuses() {
       const { data } = await api.get<{ statuses: Status[] }>('status');
@@ -187,7 +236,12 @@ export default defineComponent({
       e.preventDefault();
     },
 
-    onItemClick(item: Item) {},
+    onItemClick(item: Item) {
+      this.toggleModal();
+      this.$data.selectedItem = item;
+      this.$data.updatedItem.name = item.name;
+      this.$data.updatedItem.price = item.price;
+    },
   },
   mounted() {
     this.handleGetItems();
@@ -331,6 +385,40 @@ export default defineComponent({
         ></Button>
       </form>
     </Sidebar>
+
+    <Modal
+      :title="selectedItem.name"
+      subtitle="You can edit, delete or view this ingredient."
+      @onCloseModal="onCloseModal"
+      :isOpen="isModalOpen"
+    >
+      <form class="modal" v-on:submit="handleFormSubmit">
+        <Input
+          firstOne
+          placeholder="Name"
+          :value="updatedItem.name"
+          v-model="updatedItem.name"
+        />
+        <Input
+          lastOne
+          placeholder="Price"
+          :value="updatedItem.price"
+          v-model="updatedItem.price"
+        />
+        <Button
+          :variant="
+            updatedItem.name != '' && updatedItem.price != 0 ? 'primary' : 'disabled'
+          "
+          text="Update"
+          @click="handleUpdateItem(selectedItem.id)"
+        ></Button>
+        <Button
+          variant="secondary"
+          :text="mayDelete ? `Confirm delete? ${deleteTime}s` : 'Delete'"
+          @click="handleDeleteItem(selectedItem.id)"
+        ></Button>
+      </form>
+    </Modal>
   </div>
 </template>
 
@@ -473,6 +561,10 @@ form {
   &.modal {
     @media (max-width: 767px) {
       width: 100%;
+    }
+    .btn {
+      margin-top: 1rem;
+      max-width: 540px;
     }
   }
 }

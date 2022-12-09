@@ -5,6 +5,7 @@ import { Ingredient } from '../entities/Ingredient';
 import { Item } from '../entities/Item';
 import { ItemToIngredient } from '../entities/ItemToIngredient';
 import { ItemType } from '../entities/ItemType';
+import { Order } from '../entities/Order';
 
 interface IngredientToSave {
   quantity: number;
@@ -122,6 +123,45 @@ class ItemsController {
     );
 
     return res.json(formattedItems);
+  }
+
+  async delete(req: Request, res: Response) {
+    const itemRepository = AppDataSource.getRepository(Item);
+    const orderRepository = AppDataSource.getRepository(Order);
+    const itemToIngredientRepository = AppDataSource.getRepository(ItemToIngredient);
+
+    const { id } = req.params;
+
+    if (!id) return res.status(400).json({ msg: 'Id is required' });
+
+    const itemToDelete = await itemRepository.findOneByOrFail({ id });
+
+    if (!itemToDelete) return res.status(404).json({ msg: 'Item not found' });
+
+    const ordersWithThisItem = await orderRepository.find({
+      where: {
+        orderToItems: {
+          itemId: itemToDelete.id,
+        },
+      },
+    });
+
+    if (ordersWithThisItem.length != 0)
+      return res.status(400).json({ msg: 'There are orders with this item' });
+
+    const itemsToIngredients = await itemToIngredientRepository.find({
+      where: {
+        itemId: itemToDelete.id,
+      },
+    });
+
+    itemsToIngredients.forEach(async (itemToIngredient) => {
+      await itemToIngredientRepository.delete(itemToIngredient);
+    });
+
+    await itemRepository.delete(itemToDelete);
+
+    return res.status(200).json({ msg: 'Item deleted successfully' });
   }
 }
 

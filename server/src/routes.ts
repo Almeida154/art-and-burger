@@ -16,6 +16,7 @@ routes.delete('/ingredient/:id', IngredientsController.delete);
 
 routes.get('/items', ItemsController.all);
 routes.post('/item', ItemsController.create);
+routes.delete('/item/:id', ItemsController.delete);
 
 routes.get('/orders', OrdersController.all);
 routes.get('/orders/count', OrdersController.count);

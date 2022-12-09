@@ -302,7 +302,7 @@ form {
   transition: 0.3s ease-in;
 
   &.sidebar {
-    @media (max-width: 667px) {
+    @media (max-width: 1024px) {
       width: 100%;
     }
   }
